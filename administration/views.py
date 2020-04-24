@@ -2,11 +2,14 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.core.serializers import serialize
 from .models import Arbres, Emplacements
+
+
 # Create your views here.
 
 def arbre(request, gid):
-    arbres=Arbres.objects.filter(pk=gid)
+    arbres = Arbres.objects.filter(pk=gid)
     return render(request, 'camping/arbre.html', {'arbreobj': arbres[0]})
+
 
 def arbresjson(request):
     arbres = Arbres.objects.all()
@@ -15,12 +18,12 @@ def arbresjson(request):
 
 
 def arbres(request):
-    context ={ }
+    context = {}
     return render(request, 'camping/arbres.html', context)
 
 
 def emplacement(request, gid):
-    emplacements=Emplacements.objects.filter(pk=gid)
+    emplacements = Emplacements.objects.filter(pk=gid)
     return render(request, 'camping/emplacement.html', {'emplacementobj': emplacements[0]})
 
 
@@ -31,5 +34,10 @@ def emplacementsjson(request):
 
 
 def emplacements(request):
-    context ={ }
+    context = {}
     return render(request, 'camping/emplacements.html', context)
+
+
+def admin(request):
+    context = {}
+    return render(request, 'camping/admin.html', context)
