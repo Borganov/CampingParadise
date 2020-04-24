@@ -12,5 +12,7 @@ urlpatterns = [
     path('batiments/', views.batiments, name='batiments'),
     path('piscines.json', views.piscinesjson, name='piscinesjson'),
     path('piscines/', views.piscines, name='piscines'),
+    path('zoneCamping.json', views.zonecampingjson, name='zonecampingjson'),
+    path('zoneCamping/', views.zonecamping, name='zonecamping'),
     path('admin/', views.admin, name='admin')
 ]
