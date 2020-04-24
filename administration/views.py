@@ -1,12 +1,16 @@
 from django.http import HttpResponse
 from django.shortcuts import render
-
+from django.core.serializers import serialize
+from .models import Arbres
 # Create your views here.
-from administration.models import Arbres
+
+
+def arbresjson(request):
+    arbres = Arbres.objects.all()
+    ser = serialize('geojson', arbres, geometry_field='geom', fields=('gid',))
+    return HttpResponse(ser)
 
 
 def arbres(request):
-    list_arbres = Arbres.objects.order_by('-gid')[:3]
-    output = ([a.geom for a in list_arbres])
-    return HttpResponse(output)
-
+    context ={ }
+    return render(request, 'templates/camping/arbres.html', context)

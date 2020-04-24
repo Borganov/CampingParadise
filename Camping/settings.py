@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'administration.apps.AdministrationConfig',
     'django.contrib.gis',
+    'leaflet'
 ]
 
 MIDDLEWARE = [
@@ -125,3 +126,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+LEAFLET_CONFIG = {
+   'MIN_ZOOM': 3,
+   'MAX_ZOOM': 15,
+   'DEFAULT_ZOOM': 7,
+   'DEFAULT_CENTER': (46.7,8),
+}
