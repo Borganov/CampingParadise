@@ -81,7 +81,7 @@ DATABASES = {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': 'camping',
         'USER': 'postgres',
-        'PASSWORD': 'admin',
+        'PASSWORD': '314253',
         'Host': '127.0.0.1',
         'Port': '5432',
     }
@@ -127,8 +127,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 LEAFLET_CONFIG = {
-   'MIN_ZOOM': 3,
-   'MAX_ZOOM': 15,
-   'DEFAULT_ZOOM': 7,
-   'DEFAULT_CENTER': (46.7, 8),
+   'MIN_ZOOM': 1,
+   'MAX_ZOOM': 25,
+   'DEFAULT_ZOOM': 18,
+   'DEFAULT_CENTER': (46.211813, 7.314033),
 }

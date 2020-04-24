@@ -9,7 +9,7 @@
   {% leaflet_map "emplacements" callback="main_map_init" %}
   <script type="text/javascript">
       function main_map_init (map, options) {
-        var dataurl = '{% url "emplacementsjson" %}'
+        var dataurl = '{% url "emplacementsjson" %}';
         $.getJSON(dataurl, function(data) {
             L.geoJson(data, {onEachFeature: onEachFeature}).addTo(map);
           } );
