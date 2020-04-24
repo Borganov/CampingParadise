@@ -271,3 +271,4 @@ tags
 
 
 # End of https://www.gitignore.io/api/macos,python,R,linux,vim,emacs
+.idea/
