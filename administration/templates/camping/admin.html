@@ -1,30 +1,66 @@
 {% load leaflet_tags %}
 <head>
-  {% leaflet_js %}
-  {% leaflet_css %}
-  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    {% leaflet_js %}
+    {% leaflet_css %}
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 </head>
 
 <body>
-  {% leaflet_map "admin" callback="main_map_init" %}
-  <script type="text/javascript">
-      function main_map_init (map, options) {
+{% leaflet_map "admin" callback="main_map_init" %}
+<script type="text/javascript">
+
+
+    function main_map_init(map, options) {
+
         var dataurl_emp = '{% url "emplacementsjson" %}';
-        $.getJSON(dataurl_emp, function(data) {
-            L.geoJson(data, {onEachFeature: onEachFeature}).addTo(map);
-          } );
         var dataurl_arbre = '{% url "arbresjson" %}';
-        $.getJSON(dataurl_arbre, function(data) {
+        var dataurl_bat = '{% url "batimentsjson" %}';
+        var dataurl_piscine = '{% url "piscinesjson" %}';
+        var dataurl_zone = '{% url "zonecampingjson" %}';
+
+        var dataJSON_emp = $.getJSON(dataurl_emp, function (data) {
+      //      L.geoJson(data, {onEachFeature: onEachFeature}).addTo(map);
+        });
+        var dataJSON_arbre = $.getJSON(dataurl_arbre, function (data) {
+   //         L.geoJson(data, {onEachFeature: onEachFeature}).addTo(map);
+        });
+        var dataJSON_bat = $.getJSON(dataurl_bat, function (data) {
+   //         L.geoJson(data, {onEachFeature: onEachFeature}).addTo(map);
+        });
+        var dataJSON_piscine = $.getJSON(dataurl_piscine, function (data) {
             L.geoJson(data, {onEachFeature: onEachFeature}).addTo(map);
-          } );
-      }
+        });
+        var dataJSON_zone = $.getJSON(dataurl_zone, function (data) {
+     //       L.geoJson(data, {onEachFeature: onEachFeature}).addTo(map);
+        });
 
-      function onEachFeature(feature, layer) {
+        /* Base Maps */
+        var emplacementsT = L.tileLayer(dataJSON_emp, { attribution: '1'});
+        var arbreS = L.tileLayer(dataJSON_arbre, { attribution: '2'});
+        /*
+        var arbreS = L.tileLayer($.getJSON(dataurl_arbre, function (data) {
+            L.geoJson(data, {onEachFeature: onEachFeature});
+        }), {attribution: '1'});
+        var emplacementsT = L.tileLayer($.getJSON(dataurl_emp, function (data) {
+            L.geoJson(data, {onEachFeature: onEachFeature});
+        }), {attribution: '2'});
+        */
+        var overlayMaps = {
+            "Emplacement": emplacementsT,
+            "Arbres": arbreS
+        };
+
+        L.control.layers(null, overlayMaps).addTo(map);
+    }
+
+    function onEachFeature(feature, layer) {
         if (feature.properties && feature.properties.gid) {
-          layer.bindPopup(feature.properties.gid);
+            feature.addTo(map)
         }
-      }
+    };
 
-  </script>
+
+</script>
+
 </body>
 
