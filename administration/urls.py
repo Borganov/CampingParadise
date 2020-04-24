@@ -8,5 +8,7 @@ urlpatterns = [
     path('emplacement/<int:gid>', views.emplacement, name='emplacement'),
     path('emplacements.json', views.emplacementsjson, name='emplacementsjson'),
     path('emplacements/', views.emplacements, name='emplacements'),
+    path('batiments.json', views.batimentsjson, name='batimentsjson'),
+    path('batiments/', views.batiments, name='batiments'),
     path('admin/', views.admin, name='admin')
 ]
