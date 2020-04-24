@@ -5,7 +5,7 @@ from .models import Arbres, Emplacements
 # Create your views here.
 
 def arbre(request, gid):
-    arbres=Arbres.objects.filter(gid=gid)
+    arbres=Arbres.objects.filter(pk=gid)
     return render(request, 'camping/arbre.html', {'arbreobj': arbres[0]})
 
 def arbresjson(request):
@@ -20,7 +20,7 @@ def arbres(request):
 
 
 def emplacement(request, gid):
-    emplacements=Emplacements.objects.filter(gid=gid)
+    emplacements=Emplacements.objects.filter(pk=gid)
     return render(request, 'camping/emplacement.html', {'emplacementobj': emplacements[0]})
 
 
