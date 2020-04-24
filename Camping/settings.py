@@ -128,7 +128,7 @@ STATIC_URL = '/static/'
 
 LEAFLET_CONFIG = {
    'MIN_ZOOM': 3,
-   'MAX_ZOOM': 60,
+   'MAX_ZOOM': 15,
    'DEFAULT_ZOOM': 7,
    'DEFAULT_CENTER': (46.7, 8),
 }
