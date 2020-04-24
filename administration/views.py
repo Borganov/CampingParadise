@@ -4,7 +4,7 @@ from django.core.serializers import serialize
 from .models import Arbres, Emplacements
 # Create your views here.
 
-def arbre(request,gid):
+def arbre(request, gid):
     arbres=Arbres.objects.filter(gid=gid)
     return render(request, 'camping/arbre.html', {'arbreobj': arbres[0]})
 
@@ -19,8 +19,8 @@ def arbres(request):
     return render(request, 'camping/arbres.html', context)
 
 
-def emplacement(request,gid):
-    emplacements=Arbres.objects.filter(gid=gid)
+def emplacement(request, gid):
+    emplacements=Emplacements.objects.filter(gid=gid)
     return render(request, 'camping/emplacement.html', {'emplacementobj': emplacements[0]})
 
 
