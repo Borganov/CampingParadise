@@ -6,7 +6,7 @@
 </head>
 
 <body>
-  {% leaflet_map "arbres" callback="main_map_init" %}
+  {% leaflet_map "emplacements" callback="main_map_init" %}
   <script type="text/javascript">
       function main_map_init (map, options) {
         var dataurl = '{% url "emplacementsjson" %}'
