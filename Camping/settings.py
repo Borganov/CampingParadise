@@ -57,8 +57,7 @@ ROOT_URLCONF = 'Camping.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')]
-        ,
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -129,7 +128,7 @@ STATIC_URL = '/static/'
 
 LEAFLET_CONFIG = {
    'MIN_ZOOM': 3,
-   'MAX_ZOOM': 15,
+   'MAX_ZOOM': 60,
    'DEFAULT_ZOOM': 7,
-   'DEFAULT_CENTER': (46.7,8),
+   'DEFAULT_CENTER': (46.7, 8),
 }

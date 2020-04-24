@@ -5,7 +5,7 @@ from django.contrib.gis.db import models
 
 class Arbres (models.Model):
     gid = models.PositiveSmallIntegerField(primary_key=True)
-    id = models.PositiveIntegerField(null=True)
+    id = models.BigIntegerField(null=True)
     geom = models.MultiPolygonField(srid=4326, null=True)
 
     class Meta:
@@ -14,7 +14,7 @@ class Arbres (models.Model):
 
 class Batiments (models.Model):
     gid = models.PositiveSmallIntegerField(primary_key=True)
-    id = models.PositiveIntegerField(null=True)
+    id = models.BigIntegerField(null=True)
     geom = models.MultiPolygonField(srid=4326, null=True)
 
     class Meta:
@@ -23,7 +23,7 @@ class Batiments (models.Model):
 
 class Emplacements (models.Model):
     gid = models.PositiveSmallIntegerField(primary_key=True)
-    id = models.PositiveIntegerField(null=True)
+    id = models.BigIntegerField(null=True)
     geom = models.MultiPolygonField(srid=4326, null=True)
 
     class Meta:
@@ -32,7 +32,7 @@ class Emplacements (models.Model):
 
 class Piscine (models.Model):
     gid = models.PositiveSmallIntegerField(primary_key=True)
-    id = models.PositiveIntegerField(null=True)
+    id = models.BigIntegerField(null=True)
     geom = models.MultiPolygonField(srid=4326, null=True)
 
     class Meta:
@@ -41,7 +41,7 @@ class Piscine (models.Model):
 
 class ZoneCamping (models.Model):
     gid = models.PositiveSmallIntegerField(primary_key=True)
-    id = models.PositiveIntegerField(null=True)
+    id = models.BigIntegerField(null=True)
     geom = models.MultiPolygonField(srid=4326, null=True)
 
     class Meta:
