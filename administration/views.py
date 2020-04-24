@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.core.serializers import serialize
-from .models import Arbres, Emplacements, Batiments
+from .models import Arbres, Emplacements, Batiments, Piscines
 
 
 # Create your views here.
@@ -47,6 +47,16 @@ def batimentsjson(request):
 def batiments(request):
     context = {}
     return render(request, 'camping/batiments.html', context)
+
+def piscinesjson(request):
+    piscines = Piscines.objects.all()
+    ser = serialize('geojson', piscines, geometry_field='geom', fields=('gid', 'id'))
+    return HttpResponse(ser)
+
+
+def piscines(request):
+    context = {}
+    return render(request, 'camping/piscines.html', context)
 
 
 def admin(request):

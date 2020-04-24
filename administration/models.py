@@ -30,7 +30,7 @@ class Emplacements (models.Model):
         db_table = "emplacements"
 
 
-class Piscine (models.Model):
+class Piscines (models.Model):
     gid = models.PositiveSmallIntegerField(primary_key=True)
     id = models.BigIntegerField(null=True)
     geom = models.MultiPolygonField(srid=3857, null=True)
