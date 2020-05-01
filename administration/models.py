@@ -40,6 +40,9 @@ class Emplacements(models.Model):
     id = models.BigIntegerField(null=True)
     geom = models.MultiPolygonField(srid=3857, null=True)
 
+    def __str__(self):
+        return self.gid
+
     class Meta:
         db_table = "emplacements"
 

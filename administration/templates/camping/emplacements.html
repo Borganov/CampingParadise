@@ -16,9 +16,25 @@
     }
 
     function onEachFeature(feature, layer) {
-       console.log(feature.properties.id)
-    }
+        //layer.bindPopup(feature.properties.id.toString())
+        layer.on('mouseover', function () {
+            this.setStyle({
+                'fillColor': '#0000ff'
+            });
+            //this.bindPopup(feature.properties.id.toString())
+        });
 
+
+        layer.on('mouseout', function () {
+            this.setStyle({
+                'fillColor': '#1b9aff'
+            })
+        });
+
+        layer.on("click", function (e) {
+            console.log(feature.properties.id.toString());
+        })
+    }
 </script>
 </body>
 

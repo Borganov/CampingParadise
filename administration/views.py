@@ -29,12 +29,17 @@ def emplacement(request, gid):
 
 def emplacementsjson(request):
     emplacements = Emplacements.objects.all()
-    ser = serialize('geojson', emplacements, geometry_field='geom', fields=('gid', 'id'))
+    ser = serialize('geojson', emplacements, geometry_field='geom', fields=('gid', 'id', 'name'))
+    return HttpResponse(ser)
+
+def emplacementByIDjson(request, gid):
+    emplacement = Emplacements.objects.filter(pk=gid)
+    ser = serialize('geojson', emplacement, geometry_field='geom', fields=('gid', 'id'))
     return HttpResponse(ser)
 
 
 def emplacements(request):
-    context = {'emplacement' :  emplacement}
+    context = {}
     return render(request, 'camping/emplacements.html', context)
 
 

@@ -6,6 +6,7 @@ urlpatterns = [
     path('arbres.json', views.arbresjson, name='arbresjson'),
     path('arbres/', views.arbres, name='arbres'),
     path('emplacement/<int:gid>', views.emplacement, name='emplacement'),
+    path('emplacementByID/<int:gid>.json', views.emplacementByIDjson, name='emplacementByIDjson'),
     path('emplacements.json', views.emplacementsjson, name='emplacementsjson'),
     path('emplacements/', views.emplacements, name='emplacements'),
     path('batiments.json', views.batimentsjson, name='batimentsjson'),
