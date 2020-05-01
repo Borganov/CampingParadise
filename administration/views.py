@@ -34,7 +34,7 @@ def emplacementsjson(request):
 
 
 def emplacements(request):
-    context = {}
+    context = {'emplacement' :  emplacement}
     return render(request, 'camping/emplacements.html', context)
 
 
