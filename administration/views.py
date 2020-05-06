@@ -8,7 +8,8 @@ from .models import Arbres, Emplacements, Batiments, Piscines, ZoneCamping
 
 def arbre(request, gid):
     arbres = Arbres.objects.filter(pk=gid)
-    return render(request, 'camping/arbre.html', {'arbreobj': arbres[0]})
+    emplacements = Emplacements.objects.filter(pk=gid)
+    return render(request, 'camping/arbre.html', {'arbreobj': arbres[0], 'emplacementobj': emplacements[0]})
 
 
 def arbresjson(request):

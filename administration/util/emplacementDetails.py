@@ -40,6 +40,7 @@ def getArea(idEmp):
      emplacements = Emplacements.objects.filter(pk=idEmp).values()
     test = emplacements[0]['geom'].json
     truc = gpd.read_file(test)
+    print(truc.area)
     print(test)
     print(truc.crs)
     print(truc.area)
