@@ -31,11 +31,20 @@ def emplacement(request, gid):
     return render(request, 'camping/emplacement.html', {'emplacementobj': emplacements[0]})
 
 
-def emplacementsjson(request):
+def emplacementsAlljson(request):
     emplacements = Emplacements.objects.all()
+    ser = serialize('geojson', emplacements, geometry_field='geom', fields=('gid', 'id', 'name', 'booked'))
+    return HttpResponse(ser)
+
+def emplacementsFreejson(request):
+    emplacements = Emplacements.objects.filter(booked=0)
     ser = serialize('geojson', emplacements, geometry_field='geom', fields=('gid', 'id', 'name'))
     return HttpResponse(ser)
 
+def emplacementsBookedjson(request):
+    emplacements = Emplacements.objects.filter(booked=1)
+    ser = serialize('geojson', emplacements, geometry_field='geom', fields=('gid', 'id', 'name'))
+    return HttpResponse(ser)
 
 def emplacementdetails(request):
     emplacementdetails = ed.getEmplacementDetails(1)

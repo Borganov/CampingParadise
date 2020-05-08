@@ -40,7 +40,8 @@
                             </div>
                             <div class="flex-1 text-right md:text-center">
                                 <h5 class="font-bold uppercase text-gray-400">Bâtiment le plus proche</h5>
-                                <h3 id="buidname" class="font-bold text-3xl text-gray-600">... <span class="text-orange-500"><i
+                                <h3 id="buidname" class="font-bold text-3xl text-gray-600">... <span
+                                        class="text-orange-500"><i
                                         class="fas fa-exchange-alt"></i></span></h3>
                             </div>
                         </div>
@@ -57,7 +58,8 @@
                             </div>
                             <div class="flex-1 text-right md:text-center">
                                 <h5 class="font-bold uppercase text-gray-400">Piscine la plus proche</h5>
-                                <h3 id="poolname" class="font-bold text-3xl text-gray-600">...<span class="text-yellow-600"><i
+                                <h3 id="poolname" class="font-bold text-3xl text-gray-600">...<span
+                                        class="text-yellow-600"><i
                                         class="fas fa-caret-up"></i></span></h3>
                             </div>
                         </div>
@@ -106,7 +108,8 @@
                             </div>
                             <div class="flex-1 text-right md:text-center">
                                 <h5 class="font-bold uppercase text-gray-400">Distance jusqu'à la piscine</h5>
-                                <h3 id="pooldist" class="font-bold text-3xl text-gray-600">...<span class="text-red-500"><i
+                                <h3 id="pooldist" class="font-bold text-3xl text-gray-600">...<span
+                                        class="text-red-500"><i
                                         class="fas fa-caret-up"></i></span></h3>
                             </div>
                         </div>
@@ -137,24 +140,44 @@
                         }
 
                         function onEachFeature(feature, layer) {
-                            layer.on('mouseover', function () {
-                                this.setStyle({
-                                    'fillColor': '#0000ff'
-                                });
-                            });
 
-
-                            layer.on('mouseout', function () {
-                                this.setStyle({
-                                    'fillColor': '#1b9aff'
+                            if (feature.properties.booked == 1) {
+                                layer.setStyle({
+                                    'fillColor': '#cbff16'
                                 });
-                            });
+                                layer.on('mouseover', function () {
+                                    this.setStyle({
+                                        'fillColor': '#27ff00'
+                                    });
+                                });
+                                layer.on('mouseout', function () {
+                                    this.setStyle({
+                                        'fillColor': '#c7ff15'
+                                    });
+                                });
+
+                            } else {
+                                layer.setStyle({
+                                    'fillColor': '#ff241c'
+                                });
+                                layer.on('mouseover', function () {
+                                    this.setStyle({
+                                        'fillColor': '#f481ff'
+                                    });
+                                });
+                                layer.on('mouseout', function () {
+                                    this.setStyle({
+                                        'fillColor': '#ff241c'
+                                    });
+                                });
+                            }
 
                             layer.on("click", function (e) {
                                 window.location.assign(feature.properties.id);
                             });
 
                         }
+
                     </script>
                 </div>
 

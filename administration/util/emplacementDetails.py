@@ -14,6 +14,7 @@ class emplacementDetails:
     closest_building_name = "-"
     area = -1
     emp = -1
+    booked = True
 
 
 def getEmplacementById(idEmp):
@@ -33,7 +34,8 @@ def getEmplacementDetails(idEmp):
     building = distanceBuilding(result.emp)
     result.closest_building_dist = building['dist']
     result.closest_building_name = building['name']
-    #result.closest_building_dist = distanceBuilding(result.emp)
+    # result.closest_building_dist = distanceBuilding(result.emp)
+    result.is_booked = getBookingStatus(result.emp)
 
     return result
 
@@ -55,14 +57,13 @@ def distancepiscine(emp):
     name = "-"
     em = emp.geom.centroid
     for p in piscines:
-        print('-----------------------------'+p.name)
         point = p.geom.centroid
         dist_calc = em.distance(point)
         if dist_calc < dist:
             name = p.name
             dist = dist_calc
 
-    return {"name":name, "dist":dist}
+    return {"name": name, "dist": dist}
 
 
 def distanceBuilding(emp):
@@ -77,13 +78,14 @@ def distanceBuilding(emp):
             name = b.name
             dist = dist_calc
 
-    return {"name":name, "dist":dist}
+    return {"name": name, "dist": dist}
 
 
 def getArea(emp):
-    print(emp.geom)
     return emp.geom.area
 
 
-
-
+def getBookingStatus(emp):
+    booked = Emplacements.objects.filter(booked=False)
+    booked = booked[0]
+    return booked

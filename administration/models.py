@@ -40,6 +40,7 @@ class Emplacements(models.Model):
     gid = models.PositiveSmallIntegerField(primary_key=True)
     id = models.BigIntegerField(null=True)
     geom = models.MultiPolygonField(srid=3857, null=True)
+    booked = models.PositiveSmallIntegerField()
 
     def __str__(self):
         return self.gid
