@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.core.serializers import serialize
 from .models import Arbres, Emplacements, Batiments, Piscines, ZoneCamping
 from .util import emplacementDetails as ed
+from .util import zonesDetails as zd
 import json
 from random import randint
 
@@ -36,15 +37,12 @@ def emplacementsAlljson(request):
     ser = serialize('geojson', emplacements, geometry_field='geom', fields=('gid', 'id', 'name', 'booked'))
     return HttpResponse(ser)
 
-def emplacementsFreejson(request):
-    emplacements = Emplacements.objects.filter(booked=0)
-    ser = serialize('geojson', emplacements, geometry_field='geom', fields=('gid', 'id', 'name'))
+
+def zonesjson(request):
+    zones = ZoneCamping.objects.all()
+    ser = serialize('geojson', zones, geometry_field='geom', fields=('gid', 'id', 'name'))
     return HttpResponse(ser)
 
-def emplacementsBookedjson(request):
-    emplacements = Emplacements.objects.filter(booked=1)
-    ser = serialize('geojson', emplacements, geometry_field='geom', fields=('gid', 'id', 'name'))
-    return HttpResponse(ser)
 
 def emplacementdetails(request):
     emplacementdetails = ed.getEmplacementDetails(1)
@@ -52,9 +50,13 @@ def emplacementdetails(request):
 
 
 def emplacements(request, id):
-    print(id)
     eff = ed.getEmplacementDetails(id)
-    return render(request, 'camping/emplacements.html', {'emplacementobj': eff, 'poolname':'dsdssadfds'})
+    return render(request, 'camping/emplacements.html', {'emplacementobj': eff})
+
+
+def zones(request, id):
+    zone = zd.getZoneDetails(id)
+    return render(request, 'camping/zones.html', {'zone': zone})
 
 
 def batimentsjson(request):
