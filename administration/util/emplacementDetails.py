@@ -12,6 +12,7 @@ class emplacementDetails:
     closest_swimmingpool_id = -1
     closest_building_dist = -1
     closest_building_id = -1
+    dist = -1
     area = -1
     emp = -1
 
@@ -27,6 +28,7 @@ def getEmplacementDetails(idEmp):
     result.emp = getEmplacementById(idEmp)
     result.area = getArea(result.emp)
     result.tree_count = treeCount(result.emp)
+    result.dist = distancepiscine(result.emp)
     #result.closest_building_dist = distanceBuilding(idEmp)
 
     return result
@@ -43,12 +45,17 @@ def treeCount(emp):
     return count
 
 
-
-
-def distancepiscine(idEmp):
+def distancepiscine(emp):
     piscines = Piscines.objects.all()
+    dist = 100000000000
+    em = emp.geom.centroid
+    for p in piscines:
+        point = p.geom.centroid
+        dist_calc = em.distance(point)
+        if dist_calc < dist:
+            dist = dist_calc
 
-    return False
+    return dist_calc
 
 
 def distanceBuilding(idEmp):

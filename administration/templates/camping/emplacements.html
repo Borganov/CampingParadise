@@ -40,7 +40,7 @@
                             </div>
                             <div class="flex-1 text-right md:text-center">
                                 <h5 class="font-bold uppercase text-gray-400">Douche la plus proche</h5>
-                                <h3 class="font-bold text-3xl text-gray-600">249 <span class="text-orange-500"><i
+                                <h3 id="swimmingpool_dist" class="font-bold text-3xl text-gray-600">249 <span class="text-orange-500"><i
                                         class="fas fa-exchange-alt"></i></span></h3>
                             </div>
                         </div>
@@ -130,6 +130,7 @@
                             });
                             document.getElementById("area").innerHTML = {{emplacementobj.area}};
                             document.getElementById("tree").innerHTML = {{emplacementobj.tree_count}};
+                            document.getElementById("swimmingpool_dist").innerHTML = {{emplacementobj.dist}};
                         }
 
                         function onEachFeature(feature, layer) {
