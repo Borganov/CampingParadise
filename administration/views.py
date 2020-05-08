@@ -36,24 +36,17 @@ def emplacementsjson(request):
     ser = serialize('geojson', emplacements, geometry_field='geom', fields=('gid', 'id', 'name'))
     return HttpResponse(ser)
 
-def emplacementByIDjson(request, gid):
-    result = ed.getEmplacementDetails(gid)
-    print(result.area)
-    ser = {'area': result.area}
-    ser = json.dumps(ser)
-    #emplacement = Emplacements.objects.filter(pk=gid)
-    #ser = serialize('geojson', emplacement, geometry_field='geom', fields=('gid', 'id'))
-    return HttpResponse(ser)
 
 def emplacementdetails(request):
     emplacementdetails = ed.getEmplacementDetails(1)
     return render(request, 'camping/emplacement.html', {'emplacementobj': emplacementdetails[0]})
 
+
 def emplacements(request, id):
     print(id)
     id = randint(1,10)
-    emplacementdetails = ed.getEmplacementDetails(id)
-    return render(request, 'camping/emplacements.html', {'emplacementobj': emplacementdetails})
+    eff = ed.getEmplacementDetails(id)
+    return render(request, 'camping/emplacements.html', {'emplacementobj': eff})
 
 
 def batimentsjson(request):

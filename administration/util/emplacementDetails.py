@@ -1,28 +1,48 @@
-from administration.models import Piscines
+from administration.models import Piscines, Arbres
 from administration.models import Emplacements
+from shapely.geometry import shape, Point
 from django.core.serializers import serialize
 import geopandas as gpd
 from administration.models import Batiments
 
 
 class emplacementDetails:
-    has_tree = False
-    closest_swimmingpool_dist = 2.4
-    closest_swimmingpool_id = 2
-    closest_building_dist = 1.6
-    closest_building_id = 1
-    area = 6.5
+    tree_count = -1
+    closest_swimmingpool_dist = -1
+    closest_swimmingpool_id = -1
+    closest_building_dist = -1
+    closest_building_id = -1
+    area = -1
+    emp = -1
+
+
+def getEmplacementById(idEmp):
+    emplacements = Emplacements.objects.filter(gid=idEmp)
+    emplacement = emplacements[0]
+    return emplacement
 
 
 def getEmplacementDetails(idEmp):
     result = emplacementDetails
-   # result.has_tree = hasTree(idEmp)
-   # result.closest_building_dist = distanceBuilding(idEmp)
-    result.area = getArea(idEmp)
+    result.emp = getEmplacementById(idEmp)
+    result.area = getArea(result.emp)
+    result.tree_count = treeCount(result.emp)
+    #result.closest_building_dist = distanceBuilding(idEmp)
+
     return result
 
-def hasTree(idEmp):
-    return 'emplacement.id.toString()'
+
+def treeCount(emp):
+    arbres = Arbres.objects.all()
+    count = 0
+    polygon = emp.geom
+    for a in arbres:
+        point = a.geom
+        if polygon.contains(point):
+            count += 1
+    return count
+
+
 
 
 def distancepiscine(idEmp):
@@ -35,29 +55,8 @@ def distanceBuilding(idEmp):
     pass
 
 
-def getArea(idEmp):
-    """
-     emplacements = Emplacements.objects.filter(pk=idEmp).values()
-    test = emplacements[0]['geom'].json
-    truc = gpd.read_file(test)
-    print(truc.area)
-    print(test)
-    print(truc.crs)
-    print(truc.area)
-    print(truc.bounds)
-    truc = truc.to_crs({'init': 'epsg:3857'})
-    print(truc.crs)
-    print(truc.area)
-    print(truc.bounds)
-    :param idEmp:
-    :return:
-    """
-    emplacements = Emplacements.objects.filter(gid=idEmp)
-    emplacement = emplacements[0]
-    print(emplacement.geom.area)
-    print(emplacement.geom.boundary)
-
-    return emplacement.geom.area
+def getArea(emp):
+    return emp.geom.area
 
 
 
