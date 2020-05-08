@@ -44,9 +44,8 @@ def emplacementdetails(request):
 
 def emplacements(request, id):
     print(id)
-    id = randint(1,10)
     eff = ed.getEmplacementDetails(id)
-    return render(request, 'camping/emplacements.html', {'emplacementobj': eff})
+    return render(request, 'camping/emplacements.html', {'emplacementobj': eff, 'poolname':'dsdssadfds'})
 
 
 def batimentsjson(request):

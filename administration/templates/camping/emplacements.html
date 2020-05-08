@@ -40,7 +40,7 @@
                             </div>
                             <div class="flex-1 text-right md:text-center">
                                 <h5 class="font-bold uppercase text-gray-400">Bâtiment le plus proche</h5>
-                                <h3 id="buidingname" class="font-bold text-3xl text-gray-600">... <span class="text-orange-500"><i
+                                <h3 id="buidname" class="font-bold text-3xl text-gray-600">... <span class="text-orange-500"><i
                                         class="fas fa-exchange-alt"></i></span></h3>
                             </div>
                         </div>
@@ -90,7 +90,7 @@
                             </div>
                             <div class="flex-1 text-right md:text-center">
                                 <h5 class="font-bold uppercase text-gray-400">Distance jusqu'au bâtiment</h5>
-                                <h3 id="building_dist" class="font-bold text-3xl text-gray-600">...</h3>
+                                <h3 id="builddist" class="font-bold text-3xl text-gray-600">...</h3>
                             </div>
                         </div>
                     </div>
@@ -106,7 +106,7 @@
                             </div>
                             <div class="flex-1 text-right md:text-center">
                                 <h5 class="font-bold uppercase text-gray-400">Distance jusqu'à la piscine</h5>
-                                <h3 id="swimmingpool_dist" class="font-bold text-3xl text-gray-600">...<span class="text-red-500"><i
+                                <h3 id="pooldist" class="font-bold text-3xl text-gray-600">...<span class="text-red-500"><i
                                         class="fas fa-caret-up"></i></span></h3>
                             </div>
                         </div>
@@ -130,8 +130,9 @@
                             });
                             document.getElementById("area").innerHTML = {{emplacementobj.area}};
                             document.getElementById("tree").innerHTML = {{emplacementobj.tree_count}};
-                            document.getElementById("swimmingpool_dist").innerHTML = {{emplacementobj.closest_swimmingpool_dist}};
-                            document.getElementById("building_dist").innerHTML = {{emplacementobj.closest_building_dist}};
+                            document.getElementById("pooldist").innerHTML = {{emplacementobj.closest_swimmingpool_dist}};
+                            document.getElementById("poolname").innerHTML = "{{emplacementobj.closest_swimmingpool_name}}";
+
                         }
 
                         function onEachFeature(feature, layer) {
@@ -145,7 +146,7 @@
                             layer.on('mouseout', function () {
                                 this.setStyle({
                                     'fillColor': '#1b9aff'
-                                })
+                                });
                             });
 
                             layer.on("click", function (e) {

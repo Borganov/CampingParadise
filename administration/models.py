@@ -27,7 +27,7 @@ class Batiments(models.Model):
     id = models.BigIntegerField(null=True)
     geom = models.MultiPolygonField(srid=3857, null=True)
     name = models.CharField(max_length=200, null=True)
-    services_id = models.ForeignKey(Services, on_delete=models.CASCADE)
+    services = models.ForeignKey(Services, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.gid
