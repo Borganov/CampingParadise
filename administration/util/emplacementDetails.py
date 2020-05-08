@@ -16,10 +16,10 @@ class emplacementDetails:
 
 def getEmplacementDetails(idEmp):
     result = emplacementDetails
-    result.has_tree = hasTree(idEmp)
-    result.closest_building_dist = distanceBuilding(idEmp)
+   # result.has_tree = hasTree(idEmp)
+   # result.closest_building_dist = distanceBuilding(idEmp)
     result.area = getArea(idEmp)
-
+    return result
 
 def hasTree(idEmp):
     return 'emplacement.id.toString()'
@@ -52,10 +52,12 @@ def getArea(idEmp):
     :param idEmp:
     :return:
     """
-    emplacements = Emplacements.objects.filter(pk=idEmp)
+    emplacements = Emplacements.objects.filter(gid=idEmp)
     emplacement = emplacements[0]
     print(emplacement.geom.area)
     print(emplacement.geom.boundary)
+
+    return emplacement.geom.area
 
 
 

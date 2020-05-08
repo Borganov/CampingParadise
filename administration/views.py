@@ -2,6 +2,9 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.core.serializers import serialize
 from .models import Arbres, Emplacements, Batiments, Piscines, ZoneCamping
+from .util import emplacementDetails as ed
+import json
+from random import randint
 
 
 # Create your views here.
@@ -34,14 +37,23 @@ def emplacementsjson(request):
     return HttpResponse(ser)
 
 def emplacementByIDjson(request, gid):
-    emplacement = Emplacements.objects.filter(pk=gid)
-    ser = serialize('geojson', emplacement, geometry_field='geom', fields=('gid', 'id'))
+    result = ed.getEmplacementDetails(gid)
+    print(result.area)
+    ser = {'area': result.area}
+    ser = json.dumps(ser)
+    #emplacement = Emplacements.objects.filter(pk=gid)
+    #ser = serialize('geojson', emplacement, geometry_field='geom', fields=('gid', 'id'))
     return HttpResponse(ser)
 
+def emplacementdetails(request):
+    emplacementdetails = ed.getEmplacementDetails(1)
+    return render(request, 'camping/emplacement.html', {'emplacementobj': emplacementdetails[0]})
 
-def emplacements(request):
-    context = {}
-    return render(request, 'camping/emplacements.html', context)
+def emplacements(request, id):
+    print(id)
+    id = randint(1,10)
+    emplacementdetails = ed.getEmplacementDetails(id)
+    return render(request, 'camping/emplacements.html', {'emplacementobj': emplacementdetails})
 
 
 def batimentsjson(request):

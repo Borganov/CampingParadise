@@ -23,7 +23,7 @@
                             </div>
                             <div class="flex-1 text-right md:text-center">
                                 <h5 class="font-bold uppercase text-gray-400">Piscine la plus proche</h5>
-                                <h3 class="font-bold text-3xl text-gray-600">$3249 <span class="text-green-500"><i
+                                <h3 id="area" class="font-bold text-3xl text-gray-600">$3249 <span class="text-green-500"><i
                                         class="fas fa-caret-up"></i></span></h3>
                             </div>
                         </div>
@@ -128,6 +128,8 @@
                             $.getJSON(dataurl, function (data) {
                                 L.geoJson(data, {onEachFeature: onEachFeature}).addTo(map);
                             });
+                                        let box1 = document.getElementById("area");
+            box1.innerHTML = {{emplacementobj.area}};
                         }
 
                         function onEachFeature(feature, layer) {
@@ -145,8 +147,9 @@
                             });
 
                             layer.on("click", function (e) {
-                              console.log(feature.properties.id.toString())
-                            })
+                                window.location.assign(feature.properties.id);
+                            });
+
                         }
                     </script>
                 </div>
@@ -159,6 +162,7 @@
 
 
     </div>
+
     <!--/container-->
 {% endblock %}
 
