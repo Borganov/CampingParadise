@@ -4,6 +4,7 @@ from django.core.serializers import serialize
 from .models import Arbres, Emplacements, Batiments, Piscines, ZoneCamping
 from .util import emplacementDetails as ed
 from .util import zonesDetails as zd
+from .util import campingDetails as cd
 import json
 from random import randint
 
@@ -91,6 +92,6 @@ def zonecamping(request):
     return render(request, 'camping/zonecamping.html', context)
 
 
-def admin(request):
-    context = {}
-    return render(request, 'camping/admin.html', context)
+def accueil(request):
+    cff = cd.getCampingDetails()
+    return render(request, 'camping/accueil.html', {'campingobj': cff})

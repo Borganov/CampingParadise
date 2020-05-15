@@ -23,8 +23,8 @@
                                         class="fa fa-wallet fa-2x fa-fw fa-inverse"></i></div>
                             </div>
                             <div class="flex-1 text-right md:text-center">
-                                <h5 class="font-bold uppercase text-gray-400">Surface de l'emplacement</h5>
-                                <h3 id="area" class="font-bold text-3xl text-gray-600">... <span class="text-green-500"><i
+                                <h5 class="font-bold uppercase text-gray-400">Surface totale du camping</h5>
+                                <h3 id="camping_area" class="font-bold text-3xl text-gray-600">... <span class="text-green-500"><i
                                         class="fas fa-caret-up"></i></span></h3>
                             </div>
                         </div>
@@ -40,8 +40,8 @@
                                         class="fas fa-users fa-2x fa-fw fa-inverse"></i></div>
                             </div>
                             <div class="flex-1 text-right md:text-center">
-                                <h5 class="font-bold uppercase text-gray-400">Bâtiment le plus proche</h5>
-                                <h3 id="buidname" class="font-bold text-3xl text-gray-600">... <span
+                                <h5 class="font-bold uppercase text-gray-400">Nombre de zones</h5>
+                                <h3 id="zone_count" class="font-bold text-3xl text-gray-600">... <span
                                         class="text-orange-500"><i
                                         class="fas fa-exchange-alt"></i></span></h3>
                             </div>
@@ -58,8 +58,8 @@
                                         class="fas fa-user-plus fa-2x fa-fw fa-inverse"></i></div>
                             </div>
                             <div class="flex-1 text-right md:text-center">
-                                <h5 class="font-bold uppercase text-gray-400">Piscine la plus proche</h5>
-                                <h3 id="poolname" class="font-bold text-3xl text-gray-600">...<span
+                                <h5 class="font-bold uppercase text-gray-400">Nombre d'emplacements </h5>
+                                <h3 id="emplacement_count" class="font-bold text-3xl text-gray-600">...<span
                                         class="text-yellow-600"><i
                                         class="fas fa-caret-up"></i></span></h3>
                             </div>
@@ -67,6 +67,7 @@
                     </div>
                     <!--/Metric Card-->
                 </div>
+
                 <div class="w-full md:w-1/2 xl:w-1/3 p-3">
                     <!--Metric Card-->
                     <div class="bg-gray-900 border border-gray-800 rounded shadow p-2">
@@ -76,8 +77,8 @@
                                         class="fas fa-server fa-2x fa-fw fa-inverse"></i></div>
                             </div>
                             <div class="flex-1 text-right md:text-center">
-                                <h5 class="font-bold uppercase text-gray-400">Nombre d'arbres sur l'emplacement</h5>
-                                <h3 id="tree" class="font-bold text-3xl text-gray-600">...</h3>
+                                <h5 class="font-bold uppercase text-gray-400">Nombre d'arbres</h5>
+                                <h3 id="tree_count" class="font-bold text-3xl text-gray-600">...</h3>
                             </div>
                         </div>
                     </div>
@@ -92,8 +93,8 @@
                                 </div>
                             </div>
                             <div class="flex-1 text-right md:text-center">
-                                <h5 class="font-bold uppercase text-gray-400">Distance jusqu'au bâtiment</h5>
-                                <h3 id="builddist" class="font-bold text-3xl text-gray-600">...</h3>
+                                <h5 class="font-bold uppercase text-gray-400">Nombre de piscines</h5>
+                                <h3 id="pool_count" class="font-bold text-3xl text-gray-600">...</h3>
                             </div>
                         </div>
                     </div>
@@ -108,8 +109,8 @@
                                 </div>
                             </div>
                             <div class="flex-1 text-right md:text-center">
-                                <h5 class="font-bold uppercase text-gray-400">Distance jusqu'à la piscine</h5>
-                                <h3 id="pooldist" class="font-bold text-3xl text-gray-600">...<span
+                                <h5 class="font-bold uppercase text-gray-400">Surface des piscines</h5>
+                                <h3 id="building_count" class="font-bold text-3xl text-gray-600">...<span
                                         class="text-red-500"><i
                                         class="fas fa-caret-up"></i></span></h3>
                             </div>
@@ -180,9 +181,14 @@
                                 L.geoJson(data, {onEachFeature: onEachTree}).addTo(arbresL);
                             });
 
-
                             L.control.layers(baseLayers, overlays).addTo(map);
 
+                            document.getElementById("camping_area").innerHTML = {{campingobj.camping_area}};
+                            document.getElementById("tree_count").innerHTML = {{campingobj.tree_count}};
+                            document.getElementById("zone_count").innerHTML = {{campingobj.zone_count}};
+                            document.getElementById("emplacement_count").innerHTML = "{{campingobj.emplacement_count}}";
+                            document.getElementById("pool_count").innerHTML = "{{campingobj.pool_count}}";
+                            document.getElementById("building_count").innerHTML = "{{campingobj.building_count}}";
 
                         }
 
@@ -220,7 +226,7 @@
                             }
 
                             layer.on("click", function (e) {
-                                window.location.replace('http://127.0.0.1:8000/camping/emplacements/' + feature.properties.id);
+                                window.location.replace('/camping/emplacements/' + feature.properties.id);
 
                             });
 
@@ -229,7 +235,7 @@
                         function onEachZone(feature, layer) {
 
                             layer.on("click", function (e) {
-                                window.location.replace('http://127.0.0.1:8000/camping/zones/' + feature.properties.id);
+                                window.location.replace('/camping/zones/' + feature.properties.id);
 
                             });
 

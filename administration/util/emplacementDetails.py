@@ -89,13 +89,3 @@ def getBookingStatus(emp):
     booked = Emplacements.objects.filter(booked=False)
     booked = booked[0]
     return booked
-
-
-def getBuildings():
-    batiments = Batiments.objects.all()
-    centroids = []
-    for b in batiments:
-        centroids.append(b.geom.centroid)
-        print(b.geom.centroid)
-        print(str(b.geom.centroid[0]) + ' ' + str(b.geom.centroid[1]))
-    return centroids
