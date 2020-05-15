@@ -1,47 +1,288 @@
+{% extends "camping/base.html" %}
+{% load static %}
 {% load leaflet_tags %}
-<head>
+{% block content %}
     {% leaflet_js %}
     {% leaflet_css %}
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-</head>
+    <!--Container-->
+    <div class="container w-full mx-auto pt-20">
 
-<body>
-{% leaflet_map "admin" callback="main_map_init" %}
-<script type="text/javascript">
-    var map;
-    var arbres_data;
-
-    function main_map_init(map, options) {
-
-        var dataurl_emp = '{% url "emplacementsjson" %}';
-        var dataurl_arbre = '{% url "arbresjson" %}';
+        <div class="w-full px-4 md:px-0 md:mt-8 mb-16 text-gray-800 leading-normal">
 
 
-        /* Base Maps */
+            <!--Console Content-->
 
-        var arbreS = L.tileLayer($.getJSON(dataurl_arbre, function (data) {
-            L.geoJson(data, {onEachFeature: onEachFeature}).addTo(map);
-        }), {attribution: '1'});
-        var emplacementsT = L.tileLayer($.getJSON(dataurl_emp, function (data) {
-            L.geoJson(data, {onEachFeature: onEachFeature});
-        }), {attribution: '2'});
+            <div class="flex flex-wrap">
+                <div class="w-full md:w-1/2 xl:w-1/3 p-3">
+                    <!--Metric Card-->
+                    <div class="bg-gray-900 border border-gray-800 rounded shadow p-2">
+                        <div class="flex flex-row items-center">
+                            <div class="flex-shrink pr-4">
+                                <div class="rounded p-3 bg-green-600"><i
+                                        class="fa fa-wallet fa-2x fa-fw fa-inverse"></i></div>
+                            </div>
+                            <div class="flex-1 text-right md:text-center">
+                                <h5 class="font-bold uppercase text-gray-400">Surface de l'emplacement</h5>
+                                <h3 id="area" class="font-bold text-3xl text-gray-600">... <span class="text-green-500"><i
+                                        class="fas fa-caret-up"></i></span></h3>
+                            </div>
+                        </div>
+                    </div>
+                    <!--/Metric Card-->
+                </div>
+                <div class="w-full md:w-1/2 xl:w-1/3 p-3">
+                    <!--Metric Card-->
+                    <div class="bg-gray-900 border border-gray-800 rounded shadow p-2">
+                        <div class="flex flex-row items-center">
+                            <div class="flex-shrink pr-4">
+                                <div class="rounded p-3 bg-orange-600"><i
+                                        class="fas fa-users fa-2x fa-fw fa-inverse"></i></div>
+                            </div>
+                            <div class="flex-1 text-right md:text-center">
+                                <h5 class="font-bold uppercase text-gray-400">Bâtiment le plus proche</h5>
+                                <h3 id="buidname" class="font-bold text-3xl text-gray-600">... <span
+                                        class="text-orange-500"><i
+                                        class="fas fa-exchange-alt"></i></span></h3>
+                            </div>
+                        </div>
+                    </div>
+                    <!--/Metric Card-->
+                </div>
+                <div class="w-full md:w-1/2 xl:w-1/3 p-3">
+                    <!--Metric Card-->
+                    <div class="bg-gray-900 border border-gray-800 rounded shadow p-2">
+                        <div class="flex flex-row items-center">
+                            <div class="flex-shrink pr-4">
+                                <div class="rounded p-3 bg-yellow-400"><i
+                                        class="fas fa-user-plus fa-2x fa-fw fa-inverse"></i></div>
+                            </div>
+                            <div class="flex-1 text-right md:text-center">
+                                <h5 class="font-bold uppercase text-gray-400">Piscine la plus proche</h5>
+                                <h3 id="poolname" class="font-bold text-3xl text-gray-600">...<span
+                                        class="text-yellow-600"><i
+                                        class="fas fa-caret-up"></i></span></h3>
+                            </div>
+                        </div>
+                    </div>
+                    <!--/Metric Card-->
+                </div>
+                <div class="w-full md:w-1/2 xl:w-1/3 p-3">
+                    <!--Metric Card-->
+                    <div class="bg-gray-900 border border-gray-800 rounded shadow p-2">
+                        <div class="flex flex-row items-center">
+                            <div class="flex-shrink pr-4">
+                                <div class="rounded p-3 bg-gray-500"><i
+                                        class="fas fa-server fa-2x fa-fw fa-inverse"></i></div>
+                            </div>
+                            <div class="flex-1 text-right md:text-center">
+                                <h5 class="font-bold uppercase text-gray-400">Nombre d'arbres sur l'emplacement</h5>
+                                <h3 id="tree" class="font-bold text-3xl text-gray-600">...</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <!--/Metric Card-->
+                </div>
+                <div class="w-full md:w-1/2 xl:w-1/3 p-3">
+                    <!--Metric Card-->
+                    <div class="bg-gray-900 border border-gray-800 rounded shadow p-2">
+                        <div class="flex flex-row items-center">
+                            <div class="flex-shrink pr-4">
+                                <div class="rounded p-3 bg-gray-500"><i class="fas fa-tasks fa-2x fa-fw fa-inverse"></i>
+                                </div>
+                            </div>
+                            <div class="flex-1 text-right md:text-center">
+                                <h5 class="font-bold uppercase text-gray-400">Distance jusqu'au bâtiment</h5>
+                                <h3 id="builddist" class="font-bold text-3xl text-gray-600">...</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <!--/Metric Card-->
+                </div>
+                <div class="w-full md:w-1/2 xl:w-1/3 p-3">
+                    <!--Metric Card-->
+                    <div class="bg-gray-900 border border-gray-800 rounded shadow p-2">
+                        <div class="flex flex-row items-center">
+                            <div class="flex-shrink pr-4">
+                                <div class="rounded p-3 bg-gray-500"><i class="fas fa-inbox fa-2x fa-fw fa-inverse"></i>
+                                </div>
+                            </div>
+                            <div class="flex-1 text-right md:text-center">
+                                <h5 class="font-bold uppercase text-gray-400">Distance jusqu'à la piscine</h5>
+                                <h3 id="pooldist" class="font-bold text-3xl text-gray-600">...<span
+                                        class="text-red-500"><i
+                                        class="fas fa-caret-up"></i></span></h3>
+                            </div>
+                        </div>
+                    </div>
+                    <!--/Metric Card-->
+                </div>
+            </div>
 
-        var overlayMaps = {
-            "Emplacement": emplacementsT,
-            "Arbres": arbreS
-        };
+            <!--Divider-->
+            <hr class="border-b-2 border-gray-600 my-8 mx-4">
 
-        L.control.layers(null, overlayMaps).addTo(map);
-    }
+            <div class="flex flex-row flex-wrap flex-grow mt-2">
 
-    function onEachFeature(feature, layer) {
-        if (feature.properties && feature.properties.gid) {
+                <div class="w-full p-3">
+                    {% leaflet_map "emplacements" callback="main_map_init" %}
+                    <script type="text/javascript">
 
-        }
-    };
+                        //base Layers
+                        var emplacementsL = L.layerGroup();
+                        var zonesL = L.layerGroup();
+
+                        var baseLayers = {
+                            "emplacements": emplacementsL,
+                            "zones": zonesL
+                        };
 
 
-</script>
+                        //overlays Layers
+                        var buildingsL = L.layerGroup();
+                        var arbresL = L.layerGroup();
+                        var piscinesL = L.layerGroup();
 
-</body>
+                        var overlays = {
+                            "buildings": buildingsL,
+                            "arbres": arbresL,
+                            "piscines": piscinesL,
+                        };
+
+
+                        function main_map_init(map, options) {
+                            //Base layers (radioButton)
+                            //Emplacement
+                            var empurl = '{% url "emplacementsjson" %}';
+                            $.getJSON(empurl, function (data) {
+                                L.geoJson(data, {onEachFeature: onEachEmplacement}).addTo(emplacementsL);
+                            });
+                            //zones
+                            var zonesurl = '{% url "zonesjson" %}';
+                            $.getJSON(zonesurl, function (data) {
+                                L.geoJson(data, {onEachFeature: onEachZone}).addTo(zonesL);
+                            });
+
+                            //Overlays layers (checkbox)
+                            //batiments
+                            var buildingurl = '{% url "batimentsjson" %}'
+                            $.getJSON(buildingurl, function (data) {
+                                L.geoJson(data, {onEachFeature: onEachBuiding}).addTo(buildingsL);
+                            });
+                            //piscines
+                            var poolurl = '{% url "piscinesjson" %}'
+                            $.getJSON(poolurl, function (data) {
+                                L.geoJson(data, {onEachFeature: onEachPool}).addTo(piscinesL);
+                            });
+                            //arbres
+                            var treeurl = '{% url "arbresjson" %}'
+                            $.getJSON(treeurl, function (data) {
+                                L.geoJson(data, {onEachFeature: onEachTree}).addTo(arbresL);
+                            });
+
+
+                            L.control.layers(baseLayers, overlays).addTo(map);
+
+
+                        }
+
+                        function onEachEmplacement(feature, layer) {
+
+                            if (feature.properties.booked == 1) {
+                                layer.setStyle({
+                                    'fillColor': '#cbff16'
+                                });
+                                layer.on('mouseover', function () {
+                                    this.setStyle({
+                                        'fillColor': '#27ff00'
+                                    });
+                                });
+                                layer.on('mouseout', function () {
+                                    this.setStyle({
+                                        'fillColor': '#c7ff15'
+                                    });
+                                });
+
+                            } else {
+                                layer.setStyle({
+                                    'fillColor': '#ff241c'
+                                });
+                                layer.on('mouseover', function () {
+                                    this.setStyle({
+                                        'fillColor': '#f481ff'
+                                    });
+                                });
+                                layer.on('mouseout', function () {
+                                    this.setStyle({
+                                        'fillColor': '#ff241c'
+                                    });
+                                });
+                            }
+
+                            layer.on("click", function (e) {
+                                window.location.replace('http://127.0.0.1:8000/camping/emplacements/' + feature.properties.id);
+
+                            });
+
+                        }
+
+                        function onEachZone(feature, layer) {
+
+                            layer.on("click", function (e) {
+                                window.location.replace('http://127.0.0.1:8000/camping/zones/' + feature.properties.id);
+
+                            });
+
+                        }
+
+                        function onEachBuiding(feature, layer) {
+                            if (feature.properties && feature.properties.popupContent) {
+                                layer.setStyle({
+                                    'fillColor': '#9eff2f'
+                                });
+                            }
+                        }
+
+                        function onEachPool(feature, layer) {
+                            if (feature.properties && feature.properties.popupContent) {
+                                layer.setStyle({
+                                    'fillColor': '#27a7c0'
+                                });
+                                layer.bindPopup("name : " + feature.properties.name.toString());
+                            }
+                        }
+
+                        function onEachTree(feature, layer) {
+                            // does this feature have a property named popupContent?
+                            if (feature.properties && feature.properties.popupContent) {
+                                layer.bindPopup(feature.properties.popupContent);
+                            }
+                        }
+
+
+                    </script>
+                    <style>
+                        #emplacements {
+                            height: 500px;
+                        }
+                    </style>
+
+                </div>
+                <button onclick="showBuidings()">
+                    aieaieaie
+                </button>
+
+            </div>
+
+            <!--/ Console Content-->
+
+        </div>
+
+
+    </div>
+
+    <!--/container-->
+{% endblock %}
+
+
 

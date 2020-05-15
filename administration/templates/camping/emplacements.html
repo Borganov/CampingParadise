@@ -126,18 +126,41 @@
                 <div class="w-full p-3">
                     {% leaflet_map "emplacements" callback="main_map_init" %}
                     <script type="text/javascript">
-                        
+
+                        var buildingsL = L.layerGroup();
+                        var emplacementsL = L.layerGroup();
+
+                        var overlays = {
+
+                            "buildings": buildingsL
+                        };
+
+                        var baseLayers = {
+                            "emplacements": emplacementsL
+                        };
+
+
                         function main_map_init(map, options) {
                             var dataurl = '{% url "emplacementsjson" %}';
                             $.getJSON(dataurl, function (data) {
                                 L.geoJson(data, {onEachFeature: onEachFeature}).addTo(map);
                             });
+
+                            var buildingurl = '{% url "batimentsjson" %}'
+                            $.getJSON(buildingurl, function (data) {
+                                L.geoJson(data, {onEachBuiding: onEachBuiding}).addTo(buildingsL);
+                            });
+
+                            L.control.layers(baseLayers, overlays).addTo(map);
+
+
                             document.getElementById("area").innerHTML = {{emplacementobj.area}};
                             document.getElementById("tree").innerHTML = {{emplacementobj.tree_count}};
                             document.getElementById("pooldist").innerHTML = {{emplacementobj.closest_swimmingpool_dist}};
                             document.getElementById("poolname").innerHTML = "{{emplacementobj.closest_swimmingpool_name}}";
                             document.getElementById("buidname").innerHTML = "{{emplacementobj.closest_building_name}}";
                             document.getElementById("builddist").innerHTML = "{{emplacementobj.closest_building_dist}}";
+
                         }
 
                         function onEachFeature(feature, layer) {
@@ -179,10 +202,21 @@
 
                         }
 
+
+
+
+                        function onEachBuiding(feature, layer) {
+                            // does this feature have a property named popupContent?
+                            if (feature.properties && feature.properties.popupContent) {
+                                layer.bindPopup(feature.properties.popupContent);
+                            }
+                        }
+
+
                     </script>
                     <style>
-                        #emplacements{
-                            height:  500px;
+                        #emplacements {
+                            height: 500px;
                         }
                     </style>
 

@@ -26,7 +26,7 @@ class Batiments(models.Model):
     gid = models.PositiveSmallIntegerField(primary_key=True)
     id = models.BigIntegerField(null=True)
     geom = models.MultiPolygonField(srid=3857, null=True)
-    name = models.CharField(max_length=200, null=True)
+    name = models.CharField(max_length=200)
     services = models.ForeignKey(Services, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -53,7 +53,7 @@ class Piscines(models.Model):
     gid = models.PositiveSmallIntegerField(primary_key=True)
     id = models.BigIntegerField(null=True)
     geom = models.MultiPolygonField(srid=3857, null=True)
-    name = models.CharField(max_length=200, null=True)
+    name = models.CharField(max_length=200)
 
     class Meta:
         db_table = "piscine"
@@ -63,7 +63,7 @@ class ZoneCamping(models.Model):
     gid = models.PositiveSmallIntegerField(primary_key=True)
     id = models.BigIntegerField(null=True)
     geom = models.MultiPolygonField(srid=3857, null=True)
-    name = models.CharField(max_length=200, null=True)
+    name = models.CharField(max_length=200)
 
     class Meta:
         db_table = "zone-camping"
