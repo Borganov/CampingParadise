@@ -288,6 +288,31 @@
     </div>
 
     <!--/container-->
+
+    <script>
+    window.onload= set_nav();
+
+    function set_nav() {
+        var accueil = document.getElementById("nav_acceuil");
+        var accueil_i = document.getElementById("nav_acceuil_i");
+        var emplacements = document.getElementById("nav_emplacements");
+        var emplacements_i = document.getElementById("nav_emplacements_i");
+        var zones = document.getElementById("nav_zones");
+        var zones_i = document.getElementById("nav_zones_i");
+
+        accueil.classList.add("text-blue-400");
+        accueil.classList.add("border-blue-400");
+        accueil.classList.add("hover:border-blue-400");
+        accueil_i.classList.add("text-blue-400");
+
+        emplacements.classList.add("hover:border-pink-400");
+        emplacements.classList.add("border-gray-900");
+        zones.classList.add("hover:border-pink-400");
+        zones.classList.add("border-gray-900");
+    }
+
+    </script>
+
 {% endblock %}
 
 
