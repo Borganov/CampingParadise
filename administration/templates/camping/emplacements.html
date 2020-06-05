@@ -154,12 +154,12 @@
                             L.control.layers(baseLayers, overlays).addTo(map);
 
 
-                            document.getElementById("area").innerHTML = {{emplacementobj.area}};
+                            document.getElementById("area").innerHTML = {{emplacementobj.area|floatformat:-2}} + " m²";
                             document.getElementById("tree").innerHTML = {{emplacementobj.tree_count}};
-                            document.getElementById("pooldist").innerHTML = {{emplacementobj.closest_swimmingpool_dist}};
+                            document.getElementById("pooldist").innerHTML = {{emplacementobj.closest_swimmingpool_dist|floatformat:-2}} + " mètres";
                             document.getElementById("poolname").innerHTML = "{{emplacementobj.closest_swimmingpool_name}}";
                             document.getElementById("buidname").innerHTML = "{{emplacementobj.closest_building_name}}";
-                            document.getElementById("builddist").innerHTML = "{{emplacementobj.closest_building_dist}}";
+                            document.getElementById("builddist").innerHTML = {{emplacementobj.closest_building_dist|floatformat:-2}} + " mètres";
 
                         }
 

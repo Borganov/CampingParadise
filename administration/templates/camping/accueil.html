@@ -183,7 +183,7 @@
 
                             L.control.layers(baseLayers, overlays).addTo(map);
 
-                            document.getElementById("camping_area").innerHTML = {{campingobj.camping_area}};
+                            document.getElementById("camping_area").innerHTML = {{campingobj.camping_area|floatformat:-2}} + " m²";
                             document.getElementById("tree_count").innerHTML = {{campingobj.tree_count}};
                             document.getElementById("zone_count").innerHTML = {{campingobj.zone_count}};
                             document.getElementById("emplacement_count").innerHTML = "{{campingobj.emplacement_count}}";
@@ -274,9 +274,7 @@
                     </style>
 
                 </div>
-                <button onclick="showBuidings()">
-                    aieaieaie
-                </button>
+
 
             </div>
 

@@ -128,10 +128,10 @@
                             $.getJSON(dataurl, function (data) {
                                 L.geoJson(data, {onEachFeature: onEachFeature}).addTo(map);
                             });
-                            document.getElementById("area").innerHTML = {{zone.area}};
+                            document.getElementById("area").innerHTML = {{zone.area|floatformat:-2}} + " m²";
                             document.getElementById("name").innerHTML = "{{zone.zone.name}}";
                             document.getElementById("empCount").innerHTML = {{zone.emp_count}};
-                            document.getElementById("areaRate").innerHTML = {{zone.area_rate}};
+                            document.getElementById("areaRate").innerHTML = {{zone.area_rate|floatformat:-2}} + "%";
                             document.getElementById("booked").innerHTML = {{zone.emp_booked}};
                             document.getElementById("unbooked").innerHTML = {{zone.emp_unbooked}};
                         }
