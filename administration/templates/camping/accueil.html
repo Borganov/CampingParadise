@@ -196,22 +196,7 @@
 
                             if (feature.properties.booked == 1) {
                                 layer.setStyle({
-                                    'fillColor': '#cbff16'
-                                });
-                                layer.on('mouseover', function () {
-                                    this.setStyle({
-                                        'fillColor': '#27ff00'
-                                    });
-                                });
-                                layer.on('mouseout', function () {
-                                    this.setStyle({
-                                        'fillColor': '#c7ff15'
-                                    });
-                                });
-
-                            } else {
-                                layer.setStyle({
-                                    'fillColor': '#ff241c'
+                                    'fillColor': '#ff001b'
                                 });
                                 layer.on('mouseover', function () {
                                     this.setStyle({
@@ -220,9 +205,25 @@
                                 });
                                 layer.on('mouseout', function () {
                                     this.setStyle({
-                                        'fillColor': '#ff241c'
+                                        'fillColor': '#ff001b'
                                     });
                                 });
+
+                            } else {
+                                 layer.setStyle({
+                                    'fillColor': '#2da822'
+                                });
+                                layer.on('mouseover', function () {
+                                    this.setStyle({
+                                        'fillColor': '#ffeb3d'
+                                    });
+                                });
+                                layer.on('mouseout', function () {
+                                    this.setStyle({
+                                       'fillColor': '#2da822'
+                                    });
+                                });
+
                             }
 
                             layer.on("click", function (e) {
@@ -244,7 +245,7 @@
                         function onEachBuiding(feature, layer) {
                             if (feature.properties && feature.properties.popupContent) {
                                 layer.setStyle({
-                                    'fillColor': '#9eff2f'
+                                    'fillColor': '#ff7d25'
                                 });
                             }
                         }
@@ -252,7 +253,7 @@
                         function onEachPool(feature, layer) {
                             if (feature.properties && feature.properties.popupContent) {
                                 layer.setStyle({
-                                    'fillColor': '#27a7c0'
+                                    'fillColor': '#00bfc0'
                                 });
                                 layer.bindPopup("name : " + feature.properties.name.toString());
                             }

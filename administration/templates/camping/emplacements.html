@@ -128,16 +128,15 @@
                     <script type="text/javascript">
 
                         var buildingsL = L.layerGroup();
+                        var piscinesL = L.layerGroup();
                         var emplacementsL = L.layerGroup();
 
                         var overlays = {
-
-                            "buildings": buildingsL
+                            "buildings": buildingsL,
+                            "piscines": piscinesL,
                         };
 
-                        var baseLayers = {
-                            "emplacements": emplacementsL
-                        };
+                        var baseLayers = {};
 
 
                         function main_map_init(map, options) {
@@ -148,41 +147,32 @@
 
                             var buildingurl = '{% url "batimentsjson" %}'
                             $.getJSON(buildingurl, function (data) {
-                                L.geoJson(data, {onEachBuiding: onEachBuiding}).addTo(buildingsL);
+                                L.geoJson(data, {onEachFeature: onEachBuiding}).addTo(buildingsL);
+                            });
+                            //piscines
+                            var poolurl = '{% url "piscinesjson" %}'
+                            $.getJSON(poolurl, function (data) {
+                                L.geoJson(data, {onEachFeature: onEachPool}).addTo(piscinesL);
                             });
 
-                            L.control.layers(baseLayers, overlays).addTo(map);
+                            L.control.layers(null, overlays).addTo(map);
 
 
-                            document.getElementById("area").innerHTML = {{emplacementobj.area|floatformat:-2}} + " m²";
+                            document.getElementById("area").innerHTML = {{emplacementobj.area|floatformat:-2}} +" m²";
                             document.getElementById("tree").innerHTML = {{emplacementobj.tree_count}};
-                            document.getElementById("pooldist").innerHTML = {{emplacementobj.closest_swimmingpool_dist|floatformat:-2}} + " mètres";
+                            document.getElementById("pooldist").innerHTML = {{emplacementobj.closest_swimmingpool_dist|floatformat:-2}} +" mètres";
                             document.getElementById("poolname").innerHTML = "{{emplacementobj.closest_swimmingpool_name}}";
                             document.getElementById("buidname").innerHTML = "{{emplacementobj.closest_building_name}}";
-                            document.getElementById("builddist").innerHTML = {{emplacementobj.closest_building_dist|floatformat:-2}} + " mètres";
+                            document.getElementById("builddist").innerHTML = {{emplacementobj.closest_building_dist|floatformat:-2}} +" mètres";
 
                         }
 
                         function onEachFeature(feature, layer) {
 
                             if (feature.properties.booked == 1) {
-                                layer.setStyle({
-                                    'fillColor': '#cbff16'
-                                });
-                                layer.on('mouseover', function () {
-                                    this.setStyle({
-                                        'fillColor': '#27ff00'
-                                    });
-                                });
-                                layer.on('mouseout', function () {
-                                    this.setStyle({
-                                        'fillColor': '#c7ff15'
-                                    });
-                                });
 
-                            } else {
                                 layer.setStyle({
-                                    'fillColor': '#ff241c'
+                                    'fillColor': '#ff001b'
                                 });
                                 layer.on('mouseover', function () {
                                     this.setStyle({
@@ -191,7 +181,22 @@
                                 });
                                 layer.on('mouseout', function () {
                                     this.setStyle({
-                                        'fillColor': '#ff241c'
+                                        'fillColor': '#ff001b'
+                                    });
+                                });
+
+                            } else {
+                                layer.setStyle({
+                                    'fillColor': '#2da822'
+                                });
+                                layer.on('mouseover', function () {
+                                    this.setStyle({
+                                        'fillColor': '#ffeb3d'
+                                    });
+                                });
+                                layer.on('mouseout', function () {
+                                    this.setStyle({
+                                        'fillColor': '#2da822'
                                     });
                                 });
                             }
@@ -202,14 +207,20 @@
 
                         }
 
-
-
-
                         function onEachBuiding(feature, layer) {
-                            // does this feature have a property named popupContent?
-                            if (feature.properties && feature.properties.popupContent) {
-                                layer.bindPopup(feature.properties.popupContent);
-                            }
+
+                            layer.setStyle({
+                                'fillColor': '#ff7d25',
+                                'color' : '#793c20'
+                            });
+                        }
+
+                        function onEachPool(feature, layer) {
+
+                            layer.setStyle({
+                                'fillColor': '#00bfc0',
+                                'color': '#006a6b'
+                            });
                         }
 
 
@@ -232,26 +243,26 @@
     </div>
 
     <script>
-    window.onload= set_nav();
+        window.onload = set_nav();
 
-    function set_nav() {
-        var accueil = document.getElementById("nav_acceuil");
-        var accueil_i = document.getElementById("nav_acceuil_i");
-        var emplacements = document.getElementById("nav_emplacements");
-        var emplacements_i = document.getElementById("nav_emplacements_i");
-        var zones = document.getElementById("nav_zones");
-        var zones_i = document.getElementById("nav_zones_i");
+        function set_nav() {
+            var accueil = document.getElementById("nav_acceuil");
+            var accueil_i = document.getElementById("nav_acceuil_i");
+            var emplacements = document.getElementById("nav_emplacements");
+            var emplacements_i = document.getElementById("nav_emplacements_i");
+            var zones = document.getElementById("nav_zones");
+            var zones_i = document.getElementById("nav_zones_i");
 
-        emplacements.classList.add("text-blue-400");
-        emplacements.classList.add("border-blue-400");
-        emplacements.classList.add("hover:border-blue-400");
-        emplacements_i.classList.add("text-blue-400");
+            emplacements.classList.add("text-blue-400");
+            emplacements.classList.add("border-blue-400");
+            emplacements.classList.add("hover:border-blue-400");
+            emplacements_i.classList.add("text-blue-400");
 
-        accueil.classList.add("hover:border-pink-400");
-        accueil.classList.add("border-gray-900");
-        zones.classList.add("hover:border-pink-400");
-        zones.classList.add("border-gray-900");
-    }
+            accueil.classList.add("hover:border-pink-400");
+            accueil.classList.add("border-gray-900");
+            zones.classList.add("hover:border-pink-400");
+            zones.classList.add("border-gray-900");
+        }
 
     </script>
 
