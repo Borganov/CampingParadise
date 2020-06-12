@@ -1,0 +1,1992 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 12.2
+-- Dumped by pg_dump version 12.2
+
+-- Started on 2020-06-12 09:56:05
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- TOC entry 10 (class 2615 OID 18888)
+-- Name: topology; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA topology;
+
+
+ALTER SCHEMA topology OWNER TO postgres;
+
+--
+-- TOC entry 4035 (class 0 OID 0)
+-- Dependencies: 10
+-- Name: SCHEMA topology; Type: COMMENT; Schema: -; Owner: postgres
+--
+
+COMMENT ON SCHEMA topology IS 'PostGIS Topology schema';
+
+
+--
+-- TOC entry 2 (class 3079 OID 17886)
+-- Name: postgis; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS postgis WITH SCHEMA public;
+
+
+--
+-- TOC entry 4036 (class 0 OID 0)
+-- Dependencies: 2
+-- Name: EXTENSION postgis; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION postgis IS 'PostGIS geometry, geography, and raster spatial types and functions';
+
+
+--
+-- TOC entry 3 (class 3079 OID 18889)
+-- Name: postgis_topology; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS postgis_topology WITH SCHEMA topology;
+
+
+--
+-- TOC entry 4037 (class 0 OID 0)
+-- Dependencies: 3
+-- Name: EXTENSION postgis_topology; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION postgis_topology IS 'PostGIS topology spatial types and functions';
+
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- TOC entry 217 (class 1259 OID 19041)
+-- Name: arbres; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.arbres (
+    gid integer NOT NULL,
+    id bigint,
+    geom public.geometry(Point)
+);
+
+
+ALTER TABLE public.arbres OWNER TO postgres;
+
+--
+-- TOC entry 216 (class 1259 OID 19039)
+-- Name: arbres_gid_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.arbres_gid_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.arbres_gid_seq OWNER TO postgres;
+
+--
+-- TOC entry 4038 (class 0 OID 0)
+-- Dependencies: 216
+-- Name: arbres_gid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.arbres_gid_seq OWNED BY public.arbres.gid;
+
+
+--
+-- TOC entry 233 (class 1259 OID 19142)
+-- Name: auth_group; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.auth_group (
+    id integer NOT NULL,
+    name character varying(80) NOT NULL
+);
+
+
+ALTER TABLE public.auth_group OWNER TO postgres;
+
+--
+-- TOC entry 232 (class 1259 OID 19140)
+-- Name: auth_group_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.auth_group_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_group_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 4039 (class 0 OID 0)
+-- Dependencies: 232
+-- Name: auth_group_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.auth_group_id_seq OWNED BY public.auth_group.id;
+
+
+--
+-- TOC entry 235 (class 1259 OID 19152)
+-- Name: auth_group_permissions; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.auth_group_permissions (
+    id integer NOT NULL,
+    group_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_group_permissions OWNER TO postgres;
+
+--
+-- TOC entry 234 (class 1259 OID 19150)
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.auth_group_permissions_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_group_permissions_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 4040 (class 0 OID 0)
+-- Dependencies: 234
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.auth_group_permissions_id_seq OWNED BY public.auth_group_permissions.id;
+
+
+--
+-- TOC entry 231 (class 1259 OID 19134)
+-- Name: auth_permission; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.auth_permission (
+    id integer NOT NULL,
+    name character varying(50) NOT NULL,
+    content_type_id integer NOT NULL,
+    codename character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.auth_permission OWNER TO postgres;
+
+--
+-- TOC entry 230 (class 1259 OID 19132)
+-- Name: auth_permission_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.auth_permission_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_permission_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 4041 (class 0 OID 0)
+-- Dependencies: 230
+-- Name: auth_permission_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.auth_permission_id_seq OWNED BY public.auth_permission.id;
+
+
+--
+-- TOC entry 237 (class 1259 OID 19160)
+-- Name: auth_user; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.auth_user (
+    id integer NOT NULL,
+    password character varying(128) NOT NULL,
+    last_login timestamp with time zone,
+    is_superuser boolean NOT NULL,
+    username character varying(30) NOT NULL,
+    first_name character varying(30) NOT NULL,
+    last_name character varying(30) NOT NULL,
+    email character varying(75) NOT NULL,
+    is_staff boolean NOT NULL,
+    is_active boolean NOT NULL,
+    date_joined timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.auth_user OWNER TO postgres;
+
+--
+-- TOC entry 239 (class 1259 OID 19170)
+-- Name: auth_user_groups; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.auth_user_groups (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    group_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_user_groups OWNER TO postgres;
+
+--
+-- TOC entry 238 (class 1259 OID 19168)
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.auth_user_groups_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_groups_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 4042 (class 0 OID 0)
+-- Dependencies: 238
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.auth_user_groups_id_seq OWNED BY public.auth_user_groups.id;
+
+
+--
+-- TOC entry 236 (class 1259 OID 19158)
+-- Name: auth_user_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.auth_user_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 4043 (class 0 OID 0)
+-- Dependencies: 236
+-- Name: auth_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.auth_user_id_seq OWNED BY public.auth_user.id;
+
+
+--
+-- TOC entry 241 (class 1259 OID 19178)
+-- Name: auth_user_user_permissions; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.auth_user_user_permissions (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_user_user_permissions OWNER TO postgres;
+
+--
+-- TOC entry 240 (class 1259 OID 19176)
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.auth_user_user_permissions_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_user_permissions_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 4044 (class 0 OID 0)
+-- Dependencies: 240
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.auth_user_user_permissions_id_seq OWNED BY public.auth_user_user_permissions.id;
+
+
+--
+-- TOC entry 219 (class 1259 OID 19053)
+-- Name: batiments; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.batiments (
+    gid integer NOT NULL,
+    id bigint,
+    geom public.geometry(MultiPolygon),
+    services_id integer,
+    name text
+);
+
+
+ALTER TABLE public.batiments OWNER TO postgres;
+
+--
+-- TOC entry 218 (class 1259 OID 19051)
+-- Name: batiments_gid_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.batiments_gid_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.batiments_gid_seq OWNER TO postgres;
+
+--
+-- TOC entry 4045 (class 0 OID 0)
+-- Dependencies: 218
+-- Name: batiments_gid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.batiments_gid_seq OWNED BY public.batiments.gid;
+
+
+--
+-- TOC entry 243 (class 1259 OID 19238)
+-- Name: django_admin_log; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.django_admin_log (
+    id integer NOT NULL,
+    action_time timestamp with time zone NOT NULL,
+    object_id text,
+    object_repr character varying(200) NOT NULL,
+    action_flag smallint NOT NULL,
+    change_message text NOT NULL,
+    content_type_id integer,
+    user_id integer NOT NULL,
+    CONSTRAINT django_admin_log_action_flag_check CHECK ((action_flag >= 0))
+);
+
+
+ALTER TABLE public.django_admin_log OWNER TO postgres;
+
+--
+-- TOC entry 242 (class 1259 OID 19236)
+-- Name: django_admin_log_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.django_admin_log_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_admin_log_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 4046 (class 0 OID 0)
+-- Dependencies: 242
+-- Name: django_admin_log_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.django_admin_log_id_seq OWNED BY public.django_admin_log.id;
+
+
+--
+-- TOC entry 229 (class 1259 OID 19124)
+-- Name: django_content_type; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.django_content_type (
+    id integer NOT NULL,
+    name character varying(100) NOT NULL,
+    app_label character varying(100) NOT NULL,
+    model character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.django_content_type OWNER TO postgres;
+
+--
+-- TOC entry 228 (class 1259 OID 19122)
+-- Name: django_content_type_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.django_content_type_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_content_type_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 4047 (class 0 OID 0)
+-- Dependencies: 228
+-- Name: django_content_type_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.django_content_type_id_seq OWNED BY public.django_content_type.id;
+
+
+--
+-- TOC entry 227 (class 1259 OID 19113)
+-- Name: django_migrations; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.django_migrations (
+    id integer NOT NULL,
+    app character varying(255) NOT NULL,
+    name character varying(255) NOT NULL,
+    applied timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.django_migrations OWNER TO postgres;
+
+--
+-- TOC entry 226 (class 1259 OID 19111)
+-- Name: django_migrations_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.django_migrations_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_migrations_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 4048 (class 0 OID 0)
+-- Dependencies: 226
+-- Name: django_migrations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.django_migrations_id_seq OWNED BY public.django_migrations.id;
+
+
+--
+-- TOC entry 246 (class 1259 OID 19288)
+-- Name: django_session; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.django_session (
+    session_key character varying(40) NOT NULL,
+    session_data text NOT NULL,
+    expire_date timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.django_session OWNER TO postgres;
+
+--
+-- TOC entry 225 (class 1259 OID 19101)
+-- Name: emplacements; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.emplacements (
+    gid integer NOT NULL,
+    id bigint,
+    geom public.geometry(MultiPolygon),
+    price double precision DEFAULT 10,
+    booked integer DEFAULT 0
+);
+
+
+ALTER TABLE public.emplacements OWNER TO postgres;
+
+--
+-- TOC entry 224 (class 1259 OID 19099)
+-- Name: emplacements_gid_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.emplacements_gid_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.emplacements_gid_seq OWNER TO postgres;
+
+--
+-- TOC entry 4049 (class 0 OID 0)
+-- Dependencies: 224
+-- Name: emplacements_gid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.emplacements_gid_seq OWNED BY public.emplacements.gid;
+
+
+--
+-- TOC entry 221 (class 1259 OID 19077)
+-- Name: piscine; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.piscine (
+    gid integer NOT NULL,
+    id bigint,
+    geom public.geometry(MultiPolygon),
+    name text
+);
+
+
+ALTER TABLE public.piscine OWNER TO postgres;
+
+--
+-- TOC entry 220 (class 1259 OID 19075)
+-- Name: piciine_gid_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.piciine_gid_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.piciine_gid_seq OWNER TO postgres;
+
+--
+-- TOC entry 4050 (class 0 OID 0)
+-- Dependencies: 220
+-- Name: piciine_gid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.piciine_gid_seq OWNED BY public.piscine.gid;
+
+
+--
+-- TOC entry 244 (class 1259 OID 19261)
+-- Name: reservations; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.reservations (
+    gid integer NOT NULL,
+    emplacement_gid integer,
+    nom text,
+    "dateDebut" date,
+    "dateFind" date,
+    "factureFinale" double precision
+);
+
+
+ALTER TABLE public.reservations OWNER TO postgres;
+
+--
+-- TOC entry 245 (class 1259 OID 19274)
+-- Name: services; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.services (
+    id integer NOT NULL,
+    nom text,
+    marker text
+);
+
+
+ALTER TABLE public.services OWNER TO postgres;
+
+--
+-- TOC entry 223 (class 1259 OID 19089)
+-- Name: zone-camping; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."zone-camping" (
+    gid integer NOT NULL,
+    id bigint,
+    geom public.geometry(MultiPolygon),
+    name text
+);
+
+
+ALTER TABLE public."zone-camping" OWNER TO postgres;
+
+--
+-- TOC entry 222 (class 1259 OID 19087)
+-- Name: zone-camping_gid_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."zone-camping_gid_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."zone-camping_gid_seq" OWNER TO postgres;
+
+--
+-- TOC entry 4051 (class 0 OID 0)
+-- Dependencies: 222
+-- Name: zone-camping_gid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."zone-camping_gid_seq" OWNED BY public."zone-camping".gid;
+
+
+--
+-- TOC entry 3763 (class 2604 OID 19044)
+-- Name: arbres gid; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.arbres ALTER COLUMN gid SET DEFAULT nextval('public.arbres_gid_seq'::regclass);
+
+
+--
+-- TOC entry 3773 (class 2604 OID 19145)
+-- Name: auth_group id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group ALTER COLUMN id SET DEFAULT nextval('public.auth_group_id_seq'::regclass);
+
+
+--
+-- TOC entry 3774 (class 2604 OID 19155)
+-- Name: auth_group_permissions id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group_permissions ALTER COLUMN id SET DEFAULT nextval('public.auth_group_permissions_id_seq'::regclass);
+
+
+--
+-- TOC entry 3772 (class 2604 OID 19137)
+-- Name: auth_permission id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_permission ALTER COLUMN id SET DEFAULT nextval('public.auth_permission_id_seq'::regclass);
+
+
+--
+-- TOC entry 3775 (class 2604 OID 19163)
+-- Name: auth_user id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user ALTER COLUMN id SET DEFAULT nextval('public.auth_user_id_seq'::regclass);
+
+
+--
+-- TOC entry 3776 (class 2604 OID 19173)
+-- Name: auth_user_groups id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_groups ALTER COLUMN id SET DEFAULT nextval('public.auth_user_groups_id_seq'::regclass);
+
+
+--
+-- TOC entry 3777 (class 2604 OID 19181)
+-- Name: auth_user_user_permissions id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions ALTER COLUMN id SET DEFAULT nextval('public.auth_user_user_permissions_id_seq'::regclass);
+
+
+--
+-- TOC entry 3764 (class 2604 OID 19056)
+-- Name: batiments gid; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.batiments ALTER COLUMN gid SET DEFAULT nextval('public.batiments_gid_seq'::regclass);
+
+
+--
+-- TOC entry 3778 (class 2604 OID 19241)
+-- Name: django_admin_log id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_admin_log ALTER COLUMN id SET DEFAULT nextval('public.django_admin_log_id_seq'::regclass);
+
+
+--
+-- TOC entry 3771 (class 2604 OID 19127)
+-- Name: django_content_type id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_content_type ALTER COLUMN id SET DEFAULT nextval('public.django_content_type_id_seq'::regclass);
+
+
+--
+-- TOC entry 3770 (class 2604 OID 19116)
+-- Name: django_migrations id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_migrations ALTER COLUMN id SET DEFAULT nextval('public.django_migrations_id_seq'::regclass);
+
+
+--
+-- TOC entry 3767 (class 2604 OID 19104)
+-- Name: emplacements gid; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.emplacements ALTER COLUMN gid SET DEFAULT nextval('public.emplacements_gid_seq'::regclass);
+
+
+--
+-- TOC entry 3765 (class 2604 OID 19080)
+-- Name: piscine gid; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.piscine ALTER COLUMN gid SET DEFAULT nextval('public.piciine_gid_seq'::regclass);
+
+
+--
+-- TOC entry 3766 (class 2604 OID 19092)
+-- Name: zone-camping gid; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."zone-camping" ALTER COLUMN gid SET DEFAULT nextval('public."zone-camping_gid_seq"'::regclass);
+
+
+--
+-- TOC entry 4000 (class 0 OID 19041)
+-- Dependencies: 217
+-- Data for Name: arbres; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.arbres (gid, id, geom) FROM stdin;
+1	1	0101000000D2AB1E472DD9284176C204450C2E5641
+2	2	010100000083729F795CD92841BF4783D10C2E5641
+3	3	010100000067F17BA569D928416DA663AE0C2E5641
+4	4	0101000000DE7A55EA77D928416DA663AE0C2E5641
+5	5	01010000009CE437E482D9284111E9A2F40C2E5641
+6	6	01010000003ECDF6099BD9284111E9A2F40C2E5641
+7	7	0101000000BFEAA6ACB8D92841B62BE23A0D2E5641
+8	8	0101000000AEFD5936D5D9284109CD015E0D2E5641
+9	9	01010000005A7AEFB9FCD92841525280EA0D2E5641
+10	10	01010000009901825625DA2841525280EA0D2E5641
+11	11	01010000008C5E208F49DA2841F794BF300E2E5641
+12	12	01010000006F4AF2BD3DD928418E717231072E5641
+13	13	0101000000B31B70096ED92841048316AF052E5641
+14	14	010100000039830B5B93D92841562436D2052E5641
+15	15	01010000000181C4B2ADD92841FB667518062E5641
+16	16	01010000001BF35C1DD4D92841F24AD481062E5641
+17	17	01010000002587337BE3D9284144ECF3A4062E5641
+18	18	0101000000ABEECECC08DA2841E92E33EB062E5641
+19	19	01010000004DD78DF220DA28413BD0520E072E5641
+20	20	010100000036A055CD35DA28418E717231072E5641
+21	21	0101000000C508BD7F51D928415AF6EBB9FD2D5641
+22	22	010100000067F17BA569D928410755CC96FD2D5641
+23	23	01010000007B19296188D92841F61C8A69FE2D5641
+24	24	0101000000B556D04EA9D92841A37B6A46FE2D5641
+25	25	0101000000E5FFA0DEBAD9284148BEA98CFE2D5641
+26	26	0101000000A9B36E87CDD928419A5FC9AFFE2D5641
+27	27	01010000002587337BE3D9284192432819FF2D5641
+28	28	01010000005A7AEFB9FCD9284192432819FF2D5641
+29	29	0101000000B582A52A18DA284189278782FF2D5641
+30	30	0101000000EA75616931DA284189278782FF2D5641
+31	31	0101000000D33E294446DA2841800BE6EBFF2D5641
+32	32	0101000000EB1DB7B153D928414C905F74F62D5641
+33	33	010100000046266D226FD928419E317F97F62D5641
+34	34	0101000000A12E23938AD92841FAEE3F51F62D5641
+35	35	0101000000A9B36E87CDD928413A581D47F72D5641
+36	36	01010000007B45FE3CF7D92841313C7CB0F72D5641
+37	37	01010000001D2EBD620FDA284184DD9BD3F72D5641
+38	38	01010000009E4B6D052DDA2841D67EBBF6F72D5641
+39	39	0101000000D33E294446DA2841CD621A60F82D5641
+40	40	0101000000545CD9E663DA284120043A83F82D5641
+41	41	0101000000FF45646D72D92841F5A454A2EE2D5641
+42	42	0101000000136E112991D92841EC88B30BEF2D5641
+43	43	010100000052F5A3C5B9D92841E36C1275EF2D5641
+44	44	010100000088E85F04D3D92841350E3298EF2D5641
+45	45	01010000003465F587FAD928417F93B024F02D5641
+46	46	0101000000D64DB4AD12DA28412CF29001F02D5641
+47	47	010100000031566A1E2EDA2841D134D047F02D5641
+48	48	01010000006649265D47DA284176770F8EF02D5641
+49	49	01010000002E47DFB461DA2841C8182FB1F02D5641
+50	50	01010000004C0363CE8FDA28416D5B6EF7F02D5641
+51	51	0101000000194B07D5B1DA2841B6E0EC83F12D5641
+52	52	0101000000E692ABDBD3DA2841643FCD60F12D5641
+53	53	0101000000D4A55E65F0DA284152078B33F22D5641
+54	54	0101000000E8CD0B210FDB2841AEC44BEDF12D5641
+55	55	0101000000D6E0BEAA2BDB28419C8C09C0F22D5641
+56	56	010100000057FE6E4D49DB284141CF4806F32D5641
+57	57	0101000000FE30192269DB2841E511884CF32D5641
+58	58	0101000000C62ED27983DB28418A54C792F32D5641
+59	59	0101000000A254388DBCDB2841D4D9451FF42D5641
+60	60	0101000000707007B86FDB2841E13FD264FB2D5641
+61	61	0101000000CB78BD288BDB28413DFD921EFB2D5641
+62	62	010100000026817399A6DB284134E1F187FB2D5641
+63	63	01010000007DA6737C64DC2841B069C1C4F52D5641
+64	64	010100000024D91D5184DC284155AC000BF62D5641
+65	65	01010000007FE1D3C19FDC2841FAEE3F51F62D5641
+66	66	01010000000FDD4571D4DC2841FAEE3F51F62D5641
+67	67	01010000001EBB077EEBDC28419E317F97F62D5641
+68	68	0101000000C0A3C6A303DD28419E317F97F62D5641
+69	69	010100000028BCD3DEE1DB2841EBD3A8C20A2E5641
+70	70	0101000000A9D98381FFDB2841F4EF49590A2E5641
+71	71	010100000097EC360B1CDC28413E75C8E50A2E5641
+72	72	01010000005FEAEF6236DC28413E75C8E50A2E5641
+73	73	0101000000DBBDB4564CDC284187FA46720B2E5641
+74	74	0101000000F50378E503DC2841392BDD36032E5641
+75	75	0101000000A6CAF81733DC2841AF3C81B4012E5641
+76	76	010100000085FFE99438DC2841F61C8A69FE2D5641
+77	77	01010000004DFDA2EC52DC2841A620E01D022E5641
+78	78	01010000009927975057DC2841A37B6A46FE2D5641
+79	79	0101000000CE1A538F70DC28419D043F87022E5641
+80	80	0101000000873A4ADA73DC284192432819FF2D5641
+81	81	0101000000292309008CDC28414B631F64022E5641
+82	82	01010000000858FA7C91DC284192432819FF2D5641
+83	83	01010000003D4BB6BBAADC284194E89DF0022E5641
+84	84	01010000006360B0EDACDC28413686675FFF2D5641
+85	85	010100000005496F13C5DC284194E89DF0022E5641
+86	86	010100000051736377C9DC28412D6AC6C8FF2D5641
+87	87	0101000000CD46286BDFDC2841300F3CA0032E5641
+88	88	010100000019711CCFE3DC2841254E2532002E5641
+89	89	0101000000284FDEDBFADC2841DE6D1C7D032E5641
+90	90	01010000007479D23FFFDC2841C9906478002E5641
+91	91	0101000000628C85C91BDD2841D5517BE6032E5641
+92	92	010100000091CE203883DC2841978D13C8062E5641
+93	93	0101000000628C85C91BDD28416ED3A3BE002E5641
+94	94	0101000000977F410835DD2841D5517BE6032E5641
+95	95	010100000009BF2F9E3BDD284165B70228012E5641
+96	96	0101000000ABA7EEC353DD2841D5517BE6032E5641
+97	97	010100000064C7E50E57DD28411316E304012E5641
+98	98	010100000053DA989873DD2841C31939B9042E5641
+99	99	0101000000C0CF9B7F72DD2841B858224B012E5641
+100	100	0101000000D4F7483B91DD2841C31939B9042E5641
+101	101	0101000000D4F7483B91DD2841AF3C81B4012E5641
+\.
+
+
+--
+-- TOC entry 4016 (class 0 OID 19142)
+-- Dependencies: 233
+-- Data for Name: auth_group; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.auth_group (id, name) FROM stdin;
+\.
+
+
+--
+-- TOC entry 4018 (class 0 OID 19152)
+-- Dependencies: 235
+-- Data for Name: auth_group_permissions; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.auth_group_permissions (id, group_id, permission_id) FROM stdin;
+\.
+
+
+--
+-- TOC entry 4014 (class 0 OID 19134)
+-- Dependencies: 231
+-- Data for Name: auth_permission; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
+1	Can add log entry	1	add_logentry
+2	Can change log entry	1	change_logentry
+3	Can delete log entry	1	delete_logentry
+4	Can view log entry	1	view_logentry
+5	Can add permission	2	add_permission
+6	Can change permission	2	change_permission
+7	Can delete permission	2	delete_permission
+8	Can view permission	2	view_permission
+9	Can add group	3	add_group
+10	Can change group	3	change_group
+11	Can delete group	3	delete_group
+12	Can view group	3	view_group
+13	Can add user	4	add_user
+14	Can change user	4	change_user
+15	Can delete user	4	delete_user
+16	Can view user	4	view_user
+17	Can add content type	5	add_contenttype
+18	Can change content type	5	change_contenttype
+19	Can delete content type	5	delete_contenttype
+20	Can view content type	5	view_contenttype
+\.
+
+
+--
+-- TOC entry 4020 (class 0 OID 19160)
+-- Dependencies: 237
+-- Data for Name: auth_user; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.auth_user (id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined) FROM stdin;
+4	pbkdf2_sha256$180000$ff8U8P51ar36$JVuk5naAVJk2BqcSDmnRNZq87k6O7L7U3BHVHSRUdsw=	2020-05-15 09:49:43.706999+02	t	admin				t	t	2020-05-08 09:26:05.8639+02
+\.
+
+
+--
+-- TOC entry 4022 (class 0 OID 19170)
+-- Dependencies: 239
+-- Data for Name: auth_user_groups; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.auth_user_groups (id, user_id, group_id) FROM stdin;
+\.
+
+
+--
+-- TOC entry 4024 (class 0 OID 19178)
+-- Dependencies: 241
+-- Data for Name: auth_user_user_permissions; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.auth_user_user_permissions (id, user_id, permission_id) FROM stdin;
+\.
+
+
+--
+-- TOC entry 4002 (class 0 OID 19053)
+-- Dependencies: 219
+-- Data for Name: batiments; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.batiments (gid, id, geom, services_id, name) FROM stdin;
+2	3	010600000001000000010300000001000000050000005426679C80DC2841C9478F5F0D2E56417CD0B17BDBDC28415E3F0F4B0E2E5641D3BA6348E0DC2841BC941A9D082E5641386D88CF83DC284171578403082E56415426679C80DC2841C9478F5F0D2E5641	\N	Cantine
+6	7	01060000000100000001030000000100000005000000C0A7740E98D8284145E5D7E4052E56413BC93074B6D8284124974122072E5641E99D940DC0D828413DC71A18032E56416E7CD8A7A1D828413ABB68F9012E5641C0A7740E98D8284145E5D7E4052E5641	\N	Douches Iles
+7	8	010600000001000000010300000001000000050000006D6F5FF07AD82841CFB2E8E4022E5641C6BFD84B9AD82841D2BE9A03042E5641BE4E2637A4D82841A2B736EFFF2D564164FEACDB84D828410C3D0ABCFE2D56416D6F5FF07AD82841CFB2E8E4022E5641	\N	Douche Aproz
+9	1	0106000000010000000103000000010000000500000026652452A0D9284179802C23172E564113182402C4D928411880C84F172E5641DF16E490C4D928414789500F132E5641F263E4E0A0D9284181898CF4122E564126652452A0D9284179802C23172E5641	\N	Pergola
+4	5	010600000001000000010300000001000000050000005AD0E58D9BD92841D7239BF9F82D56419F7FE459C0D928418F6F0A37F92D5641E939CEABC0D92841A71C37E5F42D564138FFA2839CD92841823F42BCF42D56415AD0E58D9BD92841D7239BF9F82D5641	\N	WC SUD
+3	4	01060000000100000001030000000100000005000000EA96ABE11ADB284105A2F936FC2D56410C7567A340DB28410625A67EFC2D564185305C7A44DB2841F9F4DD03F82D5641C8C568D71BDB28411D4F26E5F72D5641EA96ABE11ADB284105A2F936FC2D5641	\N	WC Nord
+5	6	0106000000010000000103000000010000000900000086CFEFE583D828417C04A0360C2E5641AD6CC10DB8D828415D3F0F4B0E2E56417D1268B1C0D82841BFA6254B0A2E5641288104BCAFD828412B3252A7092E56417F6BB688B4D82841251AEE69072E5641AAF980C776D828418B1063D0042E5641530FCFFA71D82841003DF940072E564134A4537F8DD828412826A088082E564186CFEFE583D828417C04A0360C2E5641	\N	WC Ouest
+8	9	0106000000010000000103000000010000000F000000BF5B9FEECAD82841C40B2641FF2D5641517724BBD7D8284133A304BCFF2D5641D662E10CE0D82841329DAB2CFF2D56412D4D93D9E4D8284108AEAB55FD2D564193C05BF8E1D82841BCED6874FC2D56413E2FF802D1D82841287995D0FB2D56414CB80E55C9D828412A7FEE5FFC2D56416871ED21C6D828410219F45FFB2D564185831AC6B6D82841DC35A6A7FA2D5641F97FF936ACD82841B9E1B655FB2D5641A9ADABA7A9D8284150623C18FD2D56418DF4CCDAACD828412F91F90DFE2D56410B6FD717BFD828410C3D0ABCFE2D5641B22BD773C6D8284153EB41EFFD2D5641BF5B9FEECAD82841C40B2641FF2D5641	\N	Accueil
+1	2	010600000001000000010300000001000000050000001BFDB65C13DB28417EBD5C0D1A2E56415DA0030A37DB28417F4009551A2E5641F42089CC38DB2841182F0C27162E5641FD37267115DB284197ED3503162E56411BFDB65C13DB28417EBD5C0D1A2E5641	\N	Boutique
+\.
+
+
+--
+-- TOC entry 4026 (class 0 OID 19238)
+-- Dependencies: 243
+-- Data for Name: django_admin_log; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.django_admin_log (id, action_time, object_id, object_repr, action_flag, change_message, content_type_id, user_id) FROM stdin;
+\.
+
+
+--
+-- TOC entry 4012 (class 0 OID 19124)
+-- Dependencies: 229
+-- Data for Name: django_content_type; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.django_content_type (id, name, app_label, model) FROM stdin;
+1		admin	logentry
+2		auth	permission
+3		auth	group
+4		auth	user
+5		contenttypes	contenttype
+\.
+
+
+--
+-- TOC entry 4010 (class 0 OID 19113)
+-- Dependencies: 227
+-- Data for Name: django_migrations; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.django_migrations (id, app, name, applied) FROM stdin;
+1	contenttypes	0001_initial	2020-04-24 19:20:00.073068+02
+2	auth	0001_initial	2020-04-24 19:20:00.152853+02
+3	admin	0001_initial	2020-04-24 19:20:00.243612+02
+4	admin	0002_logentry_remove_auto_add	2020-04-24 19:20:00.264557+02
+5	admin	0003_logentry_add_action_flag_choices	2020-04-24 19:20:00.275527+02
+6	administration	0001_initial	2020-05-01 10:35:36.23808+02
+7	administration	0002_batiments_emplacements_piscine_zonecamping	2020-05-01 10:35:36.241071+02
+8	administration	0003_auto_20200424_1413	2020-05-01 10:35:36.245064+02
+9	contenttypes	0002_remove_content_type_name	2020-05-01 10:35:36.247055+02
+10	auth	0002_alter_permission_name_max_length	2020-05-01 10:35:36.249049+02
+11	auth	0003_alter_user_email_max_length	2020-05-01 10:35:36.251045+02
+12	auth	0004_alter_user_username_opts	2020-05-01 10:35:36.253038+02
+13	auth	0005_alter_user_last_login_null	2020-05-01 10:35:36.255043+02
+14	auth	0006_require_contenttypes_0002	2020-05-01 10:35:36.257027+02
+15	auth	0007_alter_validators_add_error_messages	2020-05-01 10:35:36.259028+02
+16	auth	0008_alter_user_username_max_length	2020-05-01 10:35:36.261018+02
+17	auth	0009_alter_user_last_name_max_length	2020-05-01 10:35:36.264008+02
+18	auth	0010_alter_group_name_max_length	2020-05-01 10:35:36.267003+02
+19	auth	0011_update_proxy_permissions	2020-05-01 10:35:36.268995+02
+21	sessions	0001_initial	2020-05-08 09:37:04.69584+02
+\.
+
+
+--
+-- TOC entry 4029 (class 0 OID 19288)
+-- Dependencies: 246
+-- Data for Name: django_session; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.django_session (session_key, session_data, expire_date) FROM stdin;
+yorn104vxhtr8afx4guatb1pi72y53en	ZjhmNmY5ZjA1ZmNhMmI2N2M4OTMyNjQ4NDMyNDM2MmY1YTlkOGUwMDp7Il9hdXRoX3VzZXJfaWQiOiI0IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIzMjczY2Q5NGU4M2M4NzkxZjQwZTU4OWE0OTY5ZTM3YzJmYzVhYTI0In0=	2020-05-22 09:38:24.489618+02
+adn5ymfe9qsfpe08sozzk2vea6gydign	ZjhmNmY5ZjA1ZmNhMmI2N2M4OTMyNjQ4NDMyNDM2MmY1YTlkOGUwMDp7Il9hdXRoX3VzZXJfaWQiOiI0IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIzMjczY2Q5NGU4M2M4NzkxZjQwZTU4OWE0OTY5ZTM3YzJmYzVhYTI0In0=	2020-05-29 09:49:43.711024+02
+\.
+
+
+--
+-- TOC entry 4008 (class 0 OID 19101)
+-- Dependencies: 225
+-- Data for Name: emplacements; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.emplacements (gid, id, geom, price, booked) FROM stdin;
+40	40	01060000000100000001030000000100000005000000E052D50065D92841587571840D2E5641804CE1D565D92841D020C3AB092E564120EA62E529D92841784E4420092E5641C0DFFAD01ED9284100D8BC930C2E5641E052D50065D92841587571840D2E5641	10.5	0
+35	35	0106000000010000000103000000010000000500000080AE313DF2D92841C057C2080A2E564120AC2F5C2EDA2841182A41940A2E5641E0C7A91531DA2841E87247AC072E56410038AAB0F5D92841682F1855072E564180AE313DF2D92841C057C2080A2E5641	10.5	0
+36	36	01060000000100000001030000000100000005000000E0C7A91531DA2841E87247AC072E5641E023A11435DA284130800FF3032E5641A0AF1B69FCD92841D8AD9067032E56410038AAB0F5D92841682F1855072E5641E0C7A91531DA2841E87247AC072E5641	10.5	0
+37	37	0106000000010000000103000000010000000500000020AC2F5C2EDA2841182A41940A2E5641208EB3C167DA284148E35F2B0B2E5641C069B03569DA2841605E262C082E5641E0C7A91531DA2841E87247AC072E564120AC2F5C2EDA2841182A41940A2E5641	12.5	0
+25	25	010600000001000000010300000001000000050000000025B9C9EED9284158725296022E5641A0E239A329DA28411838A127032E564160D9BBBA28DA284170E52711002E5641A089399BEED9284198AE28B4FF2D56410025B9C9EED9284158725296022E5641	10.5	0
+26	26	01060000000100000001030000000100000005000000A089399BEED9284198AE28B4FF2D564160D9BBBA28DA284170E52711002E56418090B5A22BDA2841B8A29006FC2D5641A000B63DF0D9284160D0117BFB2D5641A089399BEED9284198AE28B4FF2D5641	10.5	0
+27	27	01060000000100000001030000000100000005000000A0E239A329DA28411838A127032E5641A0852AEF6BDA2841700A20B3032E5641006127636DDA2841A8F6967F002E564160D9BBBA28DA284170E52711002E5641A0E239A329DA28411838A127032E5641	10.5	0
+28	28	0106000000010000000103000000010000000500000060D9BBBA28DA284170E52711002E5641006127636DDA2841A8F6967F002E5641E07CA11C70DA2841308E6F86FC2D56418090B5A22BDA2841B8A29006FC2D564160D9BBBA28DA284170E52711002E5641	10.5	0
+29	29	010600000001000000010300000001000000050000000017D7BD2DD928410072365F082E5641C016CCA46FD9284108B3C4F1082E564160CEBAA277D928419871BA49062E564100D843A436D9284168C76C71052E56410017D7BD2DD928410072365F082E5641	10.5	0
+30	30	01060000000100000001030000000100000005000000806B479C36D92841A842AC72052E564160CEBAA277D928419871BA49062E5641E0B32A157FD928410098E284022E5641203FB05341D9284190AC0305022E5641806B479C36D92841A842AC72052E5641	10.5	0
+31	31	0106000000010000000103000000010000000500000000B24BD36FD9284178A694F7082E564180793FABB0D92841F0917377092E564180553135B7D92841C88229B8062E564160CEBAA277D928419871BA49062E564100B24BD36FD9284178A694F7082E5641	10.5	0
+32	32	0106000000010000000103000000010000000500000060CEBAA277D928419871BA49062E564180553135B7D92841C88229B8062E5641A068221CBED92841F076910A032E5641E0B32A157FD928410098E284022E564160CEBAA277D928419871BA49062E5641	10.5	0
+33	33	0106000000010000000103000000010000000500000080793FABB0D92841F0917377092E564180AE313DF2D92841C057C2080A2E56410038AAB0F5D92841682F1855072E564180553135B7D92841C88229B8062E564180793FABB0D92841F0917377092E5641	10.5	0
+34	34	0106000000010000000103000000010000000500000080553135B7D92841C88229B8062E56410038AAB0F5D92841682F1855072E5641A0AF1B69FCD92841D8AD9067032E5641A068221CBED92841F076910A032E564180553135B7D92841C88229B8062E5641	10.5	0
+38	38	01060000000100000001030000000100000005000000C069B03569DA2841605E262C082E564100732E1E6ADA284168917E61042E5641E023A11435DA284130800FF3032E5641E0C7A91531DA2841E87247AC072E5641C069B03569DA2841605E262C082E5641	10.5	0
+39	39	01060000000100000001030000000100000005000000E01E8EEA15D92841187656870F2E564100A7EEA85FD92841D83BA518102E5641E052D50065D92841587571840D2E5641C0DFFAD01ED9284100D8BC930C2E5641E01E8EEA15D92841187656870F2E5641	10.5	0
+41	41	0106000000010000000103000000010000000500000000A7EEA85FD92841D83BA518102E564180C066819ED92841A001F4A9102E564140535DDDA2D92841B0D40A820D2E5641E052D50065D92841587571840D2E564100A7EEA85FD92841D83BA518102E5641	10.5	0
+42	42	01060000000100000001030000000100000005000000E052D50065D92841587571840D2E564140535DDDA2D92841B0D40A820D2E5641A0415622A6D92841E818D2250A2E5641804CE1D565D92841D020C3AB092E5641E052D50065D92841587571840D2E5641	10.5	0
+43	43	0106000000010000000103000000010000000500000080C066819ED92841A001F4A9102E564180A3D412E2D9284170C7423B112E564100EDCF40E4D92841A05B69300E2E564140535DDDA2D92841B0D40A820D2E564180C066819ED92841A001F4A9102E5641	10.5	0
+44	44	0106000000010000000103000000010000000500000000EDCF40E4D92841A05B69300E2E564140E4466EE8D92841D09F30D40A2E5641A0415622A6D92841E818D2250A2E564140535DDDA2D92841B0D40A820D2E564100EDCF40E4D92841A05B69300E2E5641	10.5	0
+45	45	0106000000010000000103000000010000000500000080A3D412E2D9284170C7423B112E5641C0A1C74723DA284178BF51B5112E564100AB453024DA2841B85378AA0E2E564100EDCF40E4D92841A05B69300E2E564180A3D412E2D9284170C7423B112E5641	10.5	0
+46	46	0106000000010000000103000000010000000500000000AB453024DA2841B85378AA0E2E5641E08FC08C26DA2841C87EDF590B2E564140E4466EE8D92841D09F30D40A2E564100EDCF40E4D92841A05B69300E2E564100AB453024DA2841B85378AA0E2E5641	10.5	0
+47	47	01060000000100000001030000000100000005000000C0A1C74723DA284178BF51B5112E5641E05F3D3763DA2841609E003B122E5641A03B3AAB64DA28413097A7010F2E564100AB453024DA2841B85378AA0E2E5641C0A1C74723DA284178BF51B5112E5641	10.5	0
+48	48	01060000000100000001030000000100000005000000A03B3AAB64DA28413097A7010F2E564180E9B5AA66DA2841F037FEF00B2E5641E08FC08C26DA2841C87EDF590B2E564100AB453024DA2841B85378AA0E2E5641A03B3AAB64DA28413097A7010F2E5641	10.5	0
+49	49	01060000000100000001030000000100000005000000A0812F7A06D92841C88D86E2162E564160ADA32347D928412060056E172E5641A0B6210C48D92841B8473DC6132E564140262D9107D92841B8473DC6132E5641A0812F7A06D92841C88D86E2162E5641	10.5	0
+50	50	01060000000100000001030000000100000005000000A0B6210C48D92841B8473DC6132E5641004A0D7E51D92841A0A9A3D2102E5641400C921914D92841E0E35441102E564140262D9107D92841B8473DC6132E5641A0B6210C48D92841B8473DC6132E5641	10.5	0
+51	51	0106000000010000000103000000010000000500000060ADA32347D928412060056E172E564140350FCC8BD92841C00CF40A182E564180B509578ED9284138837B97142E5641A0B6210C48D92841B8473DC6132E564160ADA32347D928412060056E172E5641	10.5	0
+53	53	01060000000100000001030000000100000005000000E0187273D4D9284190D2429C182E5641A00EDCD519DA28411066D144192E564100CF53A61DDA2841305A3997152E564120996CFED6D92841D887BA0B152E5641E0187273D4D9284190D2429C182E5641	10.5	0
+54	54	0106000000010000000103000000010000000500000020996CFED6D92841D887BA0B152E564100CF53A61DDA2841305A3997152E564120FDC93022DA28419007C080122E5641A059E4CEDAD92841584EA1E9112E564120996CFED6D92841D887BA0B152E5641	10.5	0
+55	55	010600000001000000010300000001000000050000006C0EDCD519DA28410666D144192E56411ACD46DB5EDA2841180690E7192E564197DF42AC60DA28416313582E162E5641DBCE53A61DDA28412D5A3997152E56416C0EDCD519DA28410666D144192E5641	10.5	0
+56	56	01060000000100000001030000000100000005000000A0DF42AC60DA28416013582E162E5641808DBEAB62DA284108F39E00132E564120FDC93022DA28419007C080122E564100CF53A61DDA2841305A3997152E5641A0DF42AC60DA28416013582E162E5641	10.5	0
+57	57	01060000000100000001030000000100000007000000A6F5B4253FD928416A7C743D1F2E564148482E3C42D928419BC03BE11B2E56417DE5BA3501D92841399E5D041B2E56418C373F36FFD828412EF4882C1D2E56413EDC3C4D00D92841B42FC7FD1D2E5641568BA2780CD92841612C15EC1E2E5641A6F5B4253FD928416A7C743D1F2E5641	10.5	0
+58	58	0106000000010000000103000000010000000500000060482E3C42D92841A0C03BE11B2E5641A03FA56946D928418882E34A182E5641A00AB3D704D92841B8BC94B9172E564180E5BA3501D92841389E5D041B2E564160482E3C42D92841A0C03BE11B2E5641	10.5	0
+60	60	0106000000010000000103000000010000000500000000591D4285D92841F892BA6C1C2E5641C02213FB89D92841E05462D6182E5641A03FA56946D928418882E34A182E564160482E3C42D92841A0C03BE11B2E564100591D4285D92841F892BA6C1C2E5641	10.5	0
+61	61	010600000001000000010300000001000000050000008046217183D92841605B23C31F2E564100749035CDD92841D8B24355202E5641608FF9FFD0D928410833790F1D2E564100591D4285D92841F892BA6C1C2E56418046217183D92841605B23C31F2E5641	10.5	0
+62	62	01060000000100000001030000000100000005000000608FF9FFD0D928410833790F1D2E564100AB73B9D3D92841100E816D192E5641C02213FB89D92841E05462D6182E564100591D4285D92841F892BA6C1C2E5641608FF9FFD0D928410833790F1D2E5641	10.5	0
+63	63	0106000000010000000103000000010000000500000000749035CDD92841E0B24355202E5641000474C10EDA2841100021DA202E564160BB6DA911DA2841D8F8C7A01D2E5641608FF9FFD0D928410833790F1D2E564100749035CDD92841E0B24355202E5641	10.5	0
+64	64	0106000000010000000103000000010000000500000060BB6DA911DA2841D8F8C7A01D2E5641A0B2E4D615DA2841B0BA6F0A1A2E564100AB73B9D3D92841100E816D192E5641608FF9FFD0D928410833790F1D2E564160BB6DA911DA2841D8F8C7A01D2E5641	10.5	0
+65	65	01060000000100000001030000000100000005000000000474C10EDA2841100021DA202E5641600351225ADA284118A0DF7C212E5641C043CE675BDA284150E4A6201E2E564160BB6DA911DA2841D8F8C7A01D2E5641000474C10EDA2841100021DA202E5641	10.5	0
+66	66	01060000000100000001030000000100000005000000E043CE675BDA284150E4A6201E2E56412056CA385DDA284150675EA71A2E5641A0B2E4D615DA2841B0BA6F0A1A2E564160BB6DA911DA2841D8F8C7A01D2E5641E043CE675BDA284150E4A6201E2E5641	10.5	0
+67	67	01060000000100000001030000000100000005000000C02C863060DA2841F0EDDE6C212E5641E0F3F74DAADA2841D09E2CF5212E56414024CC99A8DA284188FB2DB11E2E564140EC157662DA2841B04AE0281E2E5641C02C863060DA2841F0EDDE6C212E5641	10.5	0
+69	69	01060000000100000001030000000100000005000000E0F3F74DAADA2841D09E2CF5212E5641A003FE46E9DA2841E8E3F481222E5641A0F54C58E9DA28416869BE541F2E56414024CC99A8DA284188FB2DB11E2E5641E0F3F74DAADA2841D09E2CF5212E5641	10.5	0
+70	70	01060000000100000001030000000100000005000000A0F54C58E9DA28416869BE541F2E564120BD2A55EBDA2841384C3ADA1B2E5641C0D3BF70ABDA284148582F6D1B2E56414024CC99A8DA284188FB2DB11E2E5641A0F54C58E9DA28416869BE541F2E5641	10.5	0
+71	71	01060000000100000001030000000100000005000000A003FE46E9DA2841E8E3F481222E5641A0D6017915DB2841C0945ADD222E56414039A06B14DB2841F80543CD1F2E5641A0F54C58E9DA28416869BE541F2E5641A003FE46E9DA2841E8E3F481222E5641	10.5	0
+72	72	010600000001000000010300000001000000050000004039A06B14DB2841F80543CD1F2E564160BA40BA17DB28415051F65C1C2E5641609BD2C7EADA284180A090011C2E5641A0F54C58E9DA28416869BE541F2E56414039A06B14DB2841F80543CD1F2E5641	10.5	0
+73	73	01060000000100000001030000000100000005000000A0D6017915DB2841C0945ADD222E5641A07DAFEE46DB2841482A0C42232E564100B7606147DB284180EA544A202E56414039A06B14DB2841F80543CD1F2E5641A0D6017915DB2841C0945ADD222E5641	10.5	0
+75	75	01060000000100000001030000000100000005000000A07DAFEE46DB2841D8C70C42232E5641E03662F480DB2841E83F33AC232E56416077B29B82DB2841202B44E4202E564100B7606147DB284180EA544A202E5641A07DAFEE46DB2841D8C70C42232E5641	10.5	0
+76	76	010600000001000000010300000001000000050000006077B29B82DB2841202B44E4202E564100B275B684DB2841E0424B521D2E564180E609634ADB2841585E39D51C2E564100B7606147DB28411088554A202E56416077B29B82DB2841202B44E4202E5641	10.5	0
+77	77	01060000000100000001030000000100000005000000E03662F480DB2841E83F33AC232E56418094153CBDDB2841900EE432242E5641C00F29FEC0DB284118725561212E56416077B29B82DB2841202B44E4202E5641E03662F480DB2841E83F33AC232E5641	10.5	0
+78	78	01060000000100000001030000000100000006000000C00F29FEC0DB284118725561212E5641A0FE8158C2DB2841606D9B10202E5641804AEC18C3DB2841F873FBD81D2E564100B275B684DB2841E0424B521D2E56416077B29B82DB2841202B44E4202E5641C00F29FEC0DB284118725561212E5641	10.5	0
+79	79	0106000000010000000103000000010000000500000000B0F4D364DA2841788FF5C6192E5641208BC7E4ACDA2841C81225741A2E564140B69E76ADDA2841A844A4E4162E5641A0F23C6467DA284110349240162E564100B0F4D364DA2841788FF5C6192E5641	10.5	0
+80	80	01060000000100000001030000000100000005000000A0F23C6467DA284110349240162E564140B69E76ADDA2841A844A4E4162E564100E58073B1DA2841B049A2CB132E5641E009AE6269DA2841F0E0370C132E5641A0F23C6467DA284110349240162E5641	10.5	0
+81	81	01060000000100000001030000000100000005000000208BC7E4ACDA2841C81225741A2E564120909868EADA284100F003FD1A2E5641608FF0E5EBDA2841607F4975172E564140B69E76ADDA2841A844A4E4162E5641208BC7E4ACDA2841C81225741A2E5641	10.5	0
+82	82	01060000000100000001030000000100000006000000608FF0E5EBDA2841607F4975172E56414068CC41EDDA2841C8CE2839142E564100E58073B1DA2841B049A2CB132E5641A0BF42E8ADDA284178FD5D8C162E564140B69E76ADDA2841A844A4E4162E5641608FF0E5EBDA2841607F4975172E5641	10.5	0
+68	68	010600000001000000010300000001000000050000004024CC99A8DA284188FB2DB11E2E5641C0D3BF70ABDA284148582F6D1B2E5641C0B3F37264DA284168A7E1E41A2E564140EC157662DA2841B04AE0281E2E56414024CC99A8DA284188FB2DB11E2E5641	10.5	0
+83	83	0106000000010000000103000000010000000600000020909868EADA284100F003FD1A2E5641A0BC24080CDB2841E860CA451B2E5641E0D395060EDB284190E79666142E56414068CC41EDDA2841C8CE2839142E5641608FF0E5EBDA2841607F4975172E564120909868EADA284100F003FD1A2E5641	10.5	0
+85	85	01060000000100000001030000000100000005000000804E75A160DB2841F05617FC1B2E564160F1688584DB2841385F204E1C2E5641401DCCF785DB284128049EF6182E5641E002F26562DB2841103FC6B5182E5641804E75A160DB2841F05617FC1B2E5641	10.5	0
+87	87	0106000000010000000103000000010000000500000060F1688584DB2841385F204E1C2E564180AEB4C1C3DB284130FD14E91C2E564100F1FC51C6DB284160379DAB192E5641401DCCF785DB284128049EF6182E564160F1688584DB2841385F204E1C2E5641	10.5	0
+88	88	0106000000010000000103000000010000000500000000F1FC51C6DB284160379DAB192E5641E0B1BF2CC7DB284140EEF5C0152E564180B536CB88DB284158500126152E5641401DCCF785DB284128049EF6182E564100F1FC51C6DB284160379DAB192E5641	10.5	0
+89	89	0106000000010000000103000000010000000500000080DED6D068DA2841B83A3A1F122E564180660629B3DA284138F3F3A7122E56416027C903B4DA284140F8F18E0F2E564140605C866ADA284108CD1AFD0E2E564180DED6D068DA2841B83A3A1F122E5641	10.5	0
+91	91	0106000000010000000103000000010000000500000080660629B3DA284138F3F3A7122E564140F56F68EEDA2841406E1A03132E5641E09EC144EDDA2841D88DDDD70F2E56416027C903B4DA284140F8F18E0F2E564180660629B3DA284138F3F3A7122E5641	10.5	0
+93	93	0106000000010000000103000000010000000500000040F56F68EEDA2841406E1A03132E5641E0973F3B28DB2841D026D48B132E564160695D3E24DB2841F8605C4E102E5641E09EC144EDDA2841D88DDDD70F2E564140F56F68EEDA2841406E1A03132E5641	10.5	0
+94	94	0106000000010000000103000000010000000500000060695D3E24DB2841F8605C4E102E5641A09434D024DB2841B0539E990D2E5641602047FAEEDA2841E80D021A0D2E5641E09EC144EDDA2841D88DDDD70F2E564160695D3E24DB2841F8605C4E102E5641	10.5	0
+95	95	01060000000100000001030000000100000005000000E0973F3B28DB2841D026D48B132E5641804E75A160DB2841E0F95202142E5641A08DB2C65FDB2841288C33E0102E564160695D3E24DB2841F8605C4E102E5641E0973F3B28DB2841D026D48B132E5641	10.5	0
+96	96	01060000000100000001030000000100000005000000A08DB2C65FDB2841288C33E0102E564160239E0F60DB284180993A190E2E5641A09434D024DB2841B0539E990D2E564160695D3E24DB2841F8605C4E102E5641A08DB2C65FDB2841288C33E0102E5641	10.5	0
+97	97	01060000000100000001030000000100000005000000804E75A160DB2841DEF95202142E56415FABF17894DB2841E174795D142E564197D6C80A95DB2841C99C4584112E5641AC8DB2C65FDB28412A8C33E0102E5641804E75A160DB2841DEF95202142E5641	10.5	0
+98	98	01060000000100000001030000000100000005000000A0D6C80A95DB2841D09C4584112E564180978BE595DB2841C8A1436B0E2E564160239E0F60DB284180993A190E2E5641A08DB2C65FDB2841288C33E0102E5641A0D6C80A95DB2841D09C4584112E5641	10.5	0
+99	99	0106000000010000000103000000010000000500000080ABF17894DB2841E074795D142E5641C0728207C8DB284150D5DACA142E564140F407BDC9DB2841D8176CDF112E5641A0D6C80A95DB2841D09C4584112E564180ABF17894DB2841E074795D142E5641	10.5	0
+100	100	0106000000010000000103000000010000000500000040F407BDC9DB2841D8176CDF112E564100768D72CBDB2841585AFDF30E2E564180978BE595DB2841C8A1436B0E2E5641A0D6C80A95DB2841D09C4584112E564140F407BDC9DB2841D8176CDF112E5641	10.5	0
+101	101	0106000000010000000103000000010000000500000080BE5A256EDA2841A0D512170B2E564140FFAD13B6DA2841C812FFA90B2E5641A00E3399B5DA284108710DA2082E5641207FD96B6FDA2841C0A852FF072E564180BE5A256EDA2841A0D512170B2E5641	10.5	0
+102	102	01060000000100000001030000000100000005000000A00E3399B5DA284108710DA2082E5641C0D9C5DCB7DA284158C23808052E564180738AB771DA2841A0F3226D042E5641207FD96B6FDA2841C0A852FF072E5641A00E3399B5DA284108710DA2082E5641	10.5	0
+103	103	0106000000010000000103000000010000000500000040FFAD13B6DA2841C812FFA90B2E5641A0AAC372EEDA284130E6F10B0C2E5641406B42B9EFDA28411096DEE3082E5641A00E3399B5DA284108710DA2082E564140FFAD13B6DA2841C812FFA90B2E5641	10.5	0
+104	104	01060000000100000001030000000100000005000000406B42B9EFDA28411096DEE3082E56412012287DF0DA2841D06DFB92052E5641C0D9C5DCB7DA284158C23808052E5641A00E3399B5DA284108710DA2082E5641406B42B9EFDA28411096DEE3082E5641	10.5	0
+105	105	01060000000100000001030000000100000005000000A0AAC372EEDA284130E6F10B0C2E5641E0478F0324DB28414023DE9E0C2E5641A07BC10825DB284100232B25092E5641406B42B9EFDA28411096DEE3082E5641A0AAC372EEDA284130E6F10B0C2E5641	10.5	0
+106	106	01060000000100000001030000000100000005000000A07BC10825DB284100232B25092E56412056D9D126DB284128F66A0D062E56412012287DF0DA2841D06DFB92052E5641406B42B9EFDA28411096DEE3082E5641A07BC10825DB284100232B25092E5641	10.5	0
+108	108	010600000001000000010300000001000000050000004069533B61DB2841E8A1E0110A2E5641E0B61EC362DB2841587EDA87062E56412056D9D126DB284128F66A0D062E5641A07BC10825DB284100232B25092E56414069533B61DB2841E8A1E0110A2E5641	10.5	0
+109	109	010600000001000000010300000001000000050000008035213660DB2841C8CEA0290D2E56418079D28A96DB2841809DB6C40D2E564140061FCC96DB2841380220B50A2E56414069533B61DB2841E8A1E0110A2E56418035213660DB2841C8CEA0290D2E5641	10.5	0
+110	110	0106000000010000000103000000010000000500000040061FCC96DB2841380220B50A2E564120C79D1298DB2841D8299D12072E5641E0B61EC362DB2841587EDA87062E56414069533B61DB2841E8A1E0110A2E564140061FCC96DB2841380220B50A2E5641	10.5	0
+112	112	01060000000100000001030000000100000005000000E0979BA8CEDB284168B2BF060B2E564180581AEFCFDB284160D55F9D072E564120C79D1298DB2841D8299D12072E564140061FCC96DB2841380220B50A2E5641E0979BA8CEDB284168B2BF060B2E5641	10.5	0
+113	113	0106000000010000000103000000010000000500000040A7BCBC72DA284130BB13A1032E5641E0BF2C5AB7DA284148F8FF33042E5641E0BF2C5AB7DA2841D0391614012E5641A028BA4975DA2841A0245A58002E564140A7BCBC72DA284130BB13A1032E5641	10.5	0
+114	114	01060000000100000001030000000100000005000000E0BF2C5AB7DA2841D0391614012E564140B4DDA5B9DA28415889C348FD2D564180E9389076DA284198BAADADFC2D5641A028BA4975DA2841A0245A58002E5641E0BF2C5AB7DA2841D0391614012E5641	10.5	0
+115	115	01060000000100000001030000000100000005000000E0BF2C5AB7DA284148F8FF33042E56412012287DF0DA2841505D1C9E042E564140F88EFAEFDA2841407225E0012E5641E0BF2C5AB7DA2841D0391614012E5641E0BF2C5AB7DA284148F8FF33042E5641	10.5	0
+116	116	0106000000010000000103000000010000000500000040F88EFAEFDA2841407225E0012E5641C0798C87F2DA2841D83486D3FD2D564140B4DDA5B9DA28415889C348FD2D5641E0BF2C5AB7DA2841D0391614012E564140F88EFAEFDA2841407225E0012E5641	10.5	0
+117	117	010600000001000000010300000001000000050000002012287DF0DA2841505D1C9E042E56412056D9D126DB2841D008DF28052E564180080E4A25DB2841E0686B52022E564140F88EFAEFDA2841407225E0012E56412012287DF0DA2841505D1C9E042E5641	10.5	0
+118	118	0106000000010000000103000000010000000500000080080E4A25DB2841E0686B52022E56412056D9D126DB284110BDF54DFE2D5641C0798C87F2DA2841D83486D3FD2D564140F88EFAEFDA2841407225E0012E564180080E4A25DB2841E0686B52022E5641	10.5	0
+119	119	010600000001000000010300000001000000050000002056D9D126DB2841D008DF28052E5641001039FF61DB284118914EA3052E5641E029D28162DB284158142EDD022E564180080E4A25DB2841E0686B52022E56412056D9D126DB2841D008DF28052E5641	10.5	0
+121	121	01060000000100000001030000000100000005000000001039FF61DB284118914EA3052E56412020B84E97DB2841B8879415062E564100E1369598DB284160794A47032E5641E029D28162DB284158142EDD022E5641001039FF61DB284118914EA3052E5641	10.5	0
+122	122	0106000000010000000103000000010000000500000000E1369598DB284160794A47032E564160489B9F9ADB2841F83BAB3AFF2D5641A05D048763DB2841182212B8FE2D56414015308162DB28415026A9DD022E564100E1369598DB284160794A47032E5641	10.5	0
+123	123	010600000001000000010300000001000000050000002020B84E97DB2841B8879415062E5641C0CBCDADCFDB2841C8ECB07F062E564160199935D1DB28419829EA98032E564100E1369598DB284160794A47032E56412020B84E97DB2841B8879415062E5641	10.5	0
+124	124	0106000000010000000103000000010000000500000060199935D1DB28419829EA98032E564180417C86D4DB284100A1C7A4FF2D564160489B9F9ADB2841F83BAB3AFF2D564100E1369598DB284160794A47032E564160199935D1DB28419829EA98032E5641	10.5	0
+125	125	0106000000010000000103000000010000000500000080E9389076DA2841F05E4BD1FB2D5641405BC369BADA2841089C3764FC2D564140E80FABBADA284138E22A0BF92D56410037041878DA284180131570F82D564180E9389076DA2841F05E4BD1FB2D5641	10.5	0
+126	126	010600000001000000010300000001000000050000000037041878DA284180131570F82D564140E80FABBADA284138E22A0BF92D564180DCC0F6BCDA2841D86EC4D2F52D5641809E68227ADA2841A0E65458F52D56410037041878DA284180131570F82D5641	10.5	0
+127	127	01060000000100000001030000000100000005000000405BC369BADA2841089C3764FC2D5641609A1709F2DA28411094E8B2FC2D5641005B964FF3DA2841E86B0562F92D564140E80FABBADA284138E22A0BF92D5641405BC369BADA2841089C3764FC2D5641	10.5	0
+128	128	01060000000100000001030000000100000005000000005B964FF3DA2841E86B0562F92D56410088D655F5DA2841A8B08D2CF62D564180DCC0F6BCDA2841D86EC4D2F52D564140E80FABBADA284138E22A0BF92D5641005B964FF3DA2841E86B0562F92D5641	10.5	0
+129	129	01060000000100000001030000000100000007000000609A1709F2DA28411094E8B2FC2D5641A03F9EB514DB2841A81FCA17FD2D564160E6837915DB2841A03DDA6DF62D56410088D655F5DA2841A8B08D2CF62D564180156F51F4DA2841287250C9F72D5641005B964FF3DA2841E86B0562F92D5641609A1709F2DA28411094E8B2FC2D5641	10.5	0
+130	130	0106000000010000000103000000010000000600000040F9FDE24FDB28414816108AFD2D564120BF0F1172DB2841A8E902ECFD2D5641E0F2411673DB2841C8BC42D4FA2D564160CD59DF74DB2841C8529629F72D56416055133954DB2841B87AC600F72D564140F9FDE24FDB28414816108AFD2D5641	10.5	0
+131	131	0106000000010000000103000000010000000500000020BF0F1172DB2841A8E902ECFD2D5641E00B1500A1DB2841B84E1F56FE2D564180CC9346A2DB2841F86CE225FB2D5641E0F2411673DB2841C8BC42D4FA2D564120BF0F1172DB2841A8E902ECFD2D5641	10.5	0
+133	133	01060000000100000001030000000100000005000000E00B1500A1DB2841B84E1F56FE2D5641C080FD3FD3DB2841584565C8FE2D564120362DD2D6DB2841C8AEAB7FFB2D564180CC9346A2DB2841F86CE225FB2D5641E00B1500A1DB2841B84E1F56FE2D5641	10.5	0
+134	134	0106000000010000000103000000010000000500000000362DD2D6DB2841C8AEAB7FFB2D5641C0F6AB18D8DB2841E01CCFFDF72D5641408D128DA3DB284110DB05A4F72D564180CC9346A2DB2841F86CE225FB2D564100362DD2D6DB2841C8AEAB7FFB2D5641	10.5	0
+135	135	010600000001000000010300000001000000050000006029203D7CDA2841F094BE71F42D5641A08C6048BDDA284100E642F0F42D564160677811BFDA28411068FE59F12D5641A0AA1DCA7EDA2841608550D3F02D56416029203D7CDA2841F094BE71F42D5641	10.5	0
+137	137	01060000000100000001030000000100000005000000A08C6048BDDA284100E642F0F42D56418098B54AF6DA2841004B5F5AF52D564100F9F4EDF6DA284150DCD5E8F12D564160677811BFDA28411868FE59F12D5641A08C6048BDDA284100E642F0F42D5641	10.5	0
+138	138	0106000000010000000103000000010000000500000000F9F4EDF6DA284150DCD5E8F12D5641A046C075F8DA2841E0909F87EE2D5641A0C7B7B4BFDA284138AEF100EE2D564160677811BFDA28411868FE59F12D564100F9F4EDF6DA284150DCD5E8F12D5641	10.5	0
+139	139	010600000001000000010300000001000000050000008098B54AF6DA2841004B5F5AF52D5641A027370D29DB284108B07BC4F52D5641405B69122ADB2841E8730088F22D564100F9F4EDF6DA284150DCD5E8F12D56418098B54AF6DA2841004B5F5AF52D5641	10.5	0
+141	141	01060000000100000001030000000100000005000000A027370D29DB284108B07BC4F52D5641C0D8A5EC54DB28410829301AF62D5641A099243356DB2841A8B5C9E1F22D5641405B69122ADB2841E8730088F22D5641A027370D29DB284108B07BC4F52D5641	10.5	0
+142	142	01060000000100000001030000000100000005000000A099243356DB2841A8B5C9E1F22D5641E01A22C058DB2841F8464070EF2D564120024FD62ADB284198734D0EEF2D5641405B69122ADB2841E8730088F22D5641A099243356DB2841A8B5C9E1F22D5641	10.5	0
+143	143	01060000000100000001030000000100000005000000C0D8A5EC54DB28410829301AF62D564180C2701E7EDB284138D9CF6BF62D56412083EF647FDB2841B01AE64BF32D5641A099243356DB2841A8B5C9E1F22D5641C0D8A5EC54DB28410829301AF62D5641	10.5	0
+144	144	010600000001000000010300000001000000050000002083EF647FDB2841B01AE64BF32D564140A4AD4E81DB2841A83D86E2EF2D5641E01A22C058DB2841F8464070EF2D5641A099243356DB2841A8B5C9E1F22D56412083EF647FDB2841B01AE64BF32D5641	10.5	0
+146	146	01060000000100000001030000000100000005000000005A467BA9DB284168FD93D2F32D5641000851A6ABDB284198CAD223F02D564140A4AD4E81DB2841A83D86E2EF2D56412083EF647FDB2841B01AE64BF32D5641005A467BA9DB284168FD93D2F32D5641	10.5	0
+147	147	01060000000100000001030000000100000005000000FB388891A7DB2841295284C1F62D56417767CAB0D9DB284192257723F72D5641B0E1A2D6DADB2841C1493B8AF42D5641065A467BA9DB28415DFD93D2F32D5641FB388891A7DB2841295284C1F62D5641	10.5	0
+148	148	01060000000100000001030000000100000006000000005A467BA9DB284168FD93D2F32D5641C0E1A2D6DADB2841C0493B8AF42D56416091DC34D4DB2841909A0C8FF12D5641A0CC96EDBFDB28414834CC54F02D5641000851A6ABDB284198CAD223F02D5641005A467BA9DB284168FD93D2F32D5641	10.5	0
+149	149	01060000000100000001030000000100000007000000E0F4793EC3DB2841B0161A36252E5641A07AA118C2DB2841688432512B2E5641E01F58A9CBDB284120B864562C2E56414095A335E7DB28413890347F2C2E5641A0895481E9DB28419021AB0D292E5641200B520EECDB2841A88FCE8B252E5641E0F4793EC3DB2841B0161A36252E5641	10.5	0
+150	150	010600000001000000010300000001000000060000004095A335E7DB28413890347F2C2E5641206CFA4B11DC2841F8E595C42C2E564180F7175A1ADC2841302B18152C2E5641C0B36C531FDC2841F008365B292E5641A0895481E9DB28419021AB0D292E56414095A335E7DB28413890347F2C2E5641	10.5	0
+151	151	01060000000100000001030000000100000005000000C2B36C531FDC2841E808365B292E564193D7255726DC28410A63C1ED252E56410C0B520EECDB2841A28FCE8B252E5641A9895481E9DB28418A21AB0D292E5641C2B36C531FDC2841E808365B292E5641	10.5	0
+152	152	01060000000200000001030000000100000004000000A0D0CE2BC5DB2841A0710B5B242E564120FC9EA5C4DB2841F8BAB759242E564100163828C5DB2841D083CC5D242E5641A0D0CE2BC5DB2841A0710B5B242E564101030000000100000007000000A0D0CE2BC5DB2841A0710B5B242E5641A0DE4470ECDB2841C8FC80B3242E564180AD0D85F0DB2841E0E35887212E5641A07CD699F4DB2841C806F91D1E2E5641E08BE600CADB284108C52FC41D2E564120EC25A4CADB2841486E5D28202E5641A0D0CE2BC5DB2841A0710B5B242E5641	10.5	0
+154	154	01060000000100000001030000000100000005000000C0AD13D32BDC2841A88A3E4B222E564100F7B40D31DC28413053A0D51E2E5641A07CD699F4DB2841C806F91D1E2E564180AD0D85F0DB2841E0E35887212E5641C0AD13D32BDC2841A88A3E4B222E5641	10.5	0
+156	156	01060000000100000001030000000100000005000000605E13CAF7DB28416850A5BB192E5641A06C5D98FADB2841B8F5B335162E564100B4C951CDDB2841B07CFFDF152E56416066FEC9CBDB2841D045C75D192E5641605E13CAF7DB28416850A5BB192E5641	10.5	0
+157	157	01060000000100000001030000000100000005000000333D55E0F5DB284164BA51661D2E5641371F985E34DC28411F8967011E2E56419742EE1552DC284189F2ADB81A2E56413D5E13CAF7DB28416550A5BB192E5641333D55E0F5DB284164BA51661D2E5641	10.5	0
+159	159	01060000000100000001030000000100000005000000604FAF6937DC2841886DEF6D1A2E5641C042EE1552DC284190F2ADB81A2E5641E0A09B3972DC2841683D7E26172E5641C07683673CDC284128A176C0162E5641604FAF6937DC2841886DEF6D1A2E5641	10.5	0
+160	160	01060000000100000001030000000100000005000000A0820D7BCFDB2841B8D091DF142E5641A0DDA994FCDB284178F5784B152E564180B96BA2FDDB284180267B00122E56414083B6F4D0DB2841B87804D8112E5641A0820D7BCFDB2841B8D091DF142E5641	10.5	0
+161	161	0106000000010000000103000000010000000500000080B96BA2FDDB284180267B00122E56412071EFBDFFDB284160455E3C0F2E564100A89D60D1DB284100B36A060F2E56414083B6F4D0DB2841B87804D8112E564180B96BA2FDDB284180267B00122E5641	10.5	0
+162	162	01060000000100000001030000000100000005000000A0DDA994FCDB284178F5784B152E5641C0ADE7A53CDC284108C8D6DF152E5641E065143B40DC284190DD55A2122E564180B96BA2FDDB284180267B00122E5641A0DDA994FCDB284178F5784B152E5641	10.5	0
+163	163	01060000000100000001030000000100000005000000E065143B40DC284190DD55A2122E5641E041D64841DC2841D06EF7E40F2E56412071EFBDFFDB284160455E3C0F2E564180B96BA2FDDB284180267B00122E5641E065143B40DC284190DD55A2122E5641	10.5	0
+164	164	01060000000100000001030000000100000005000000C0ADE7A53CDC284108C8D6DF152E564160A1BA2F7ADC28413828766D162E564140A3B59C7EDC284168AB01FA122E5641E065143B40DC284190DD55A2122E5641C0ADE7A53CDC284108C8D6DF152E5641	10.5	0
+167	167	01060000000100000001030000000100000005000000201653A4D2DB2841F8841F210E2E564180967FA301DC2841603748860E2E5641407241B102DC2841B0DA08420B2E5641A03BE389D4DB2841187F1BF10A2E5641201653A4D2DB2841F8841F210E2E5641	10.5	0
+170	170	0106000000010000000103000000010000000500000000B08B8C42DC284198C8E9C80B2E5641608CF61345DC284120BE335C082E5641204E03BF03DC2841487917C1072E5641203623B002DC28419885DA420B2E564100B08B8C42DC284198C8E9C80B2E5641	10.5	0
+187	187	01060000000100000001030000000100000006000000E00230FE1EDC284190BF2E4EFF2D5641A0A107E34DDC2841B04F3EABFF2D564160045EE255DC2841F01F2A54FD2D564120D0D7B261DC2841E82A5AF7F92D564120ADA8B53FDC2841C8A8A88EF92D5641E00230FE1EDC284190BF2E4EFF2D5641	10.5	0
+1	1	0106000000010000000103000000010000000600000020C9BC334AD92841F893A6F8F12D56418026E9448FD9284118E95F8AF22D5641E0D9C22F90D9284128B58FA9EE2D5641A0F835114DD9284158EE0080EE2D5641A0AC85BE4AD92841A8CDE82DEF2D564120C9BC334AD92841F893A6F8F12D5641	10.5	0
+180	180	0106000000010000000103000000010000000500000020CD8D4F8CDC2841607D2084062E56418071F840BADC2841B08684FD062E5641404DBA4EBBDC284140AA1976042E5641605F81858CDC28415833A932042E564120CD8D4F8CDC2841607D2084062E5641	10.5	0
+171	171	01060000000100000001030000000100000007000000E041D64841DC28419897E7130F2E5641A098D30E64DC28417865936B0F2E56414050572A66DC2841F8146F70082E5641A027D16A5BDC2841A81921AD082E5641608CF61345DC284120BE335C082E564100B08B8C42DC284198C8E9C80B2E5641E041D64841DC28419897E7130F2E5641	10.5	0
+172	172	010600000001000000010300000001000000050000002085B161D5DB284188461A9F062E5641E029C5CC04DC2841B08684FD062E564120E19F6E05DC2841A0975183032E564120860355D8DB284100B3D475032E56412085B161D5DB284188461A9F062E5641	10.5	0
+174	174	01060000000100000001030000000100000005000000E029C5CC04DC2841B08684FD062E5641E0ABEC3838DC2841A0746584072E5641C06370543ADC2841F8A0B5FC032E564120E19F6E05DC2841A0975183032E5641E029C5CC04DC2841B08684FD062E5641	10.5	0
+175	175	01060000000100000001030000000100000005000000C06370543ADC2841F8A0B5FC032E564180F60C043CDC284140CD0575002E56418006305407DC284138366002002E564120E19F6E05DC2841A0975183032E5641C06370543ADC2841F8A0B5FC032E5641	10.5	0
+176	176	01060000000100000001030000000100000006000000E0ABEC3838DC2841A0746584072E564120DE02935ADC2841804211DC072E564120753E9666DC284188CBA098072E5641E05000A467DC2841F0172640042E5641C06370543ADC2841F8A0B5FC032E5641E0ABEC3838DC2841A0746584072E5641	10.5	0
+177	177	01060000000100000001030000000100000005000000E05000A467DC2841F0172640042E5641A051A91D69DC284198D669EE002E564180F60C043CDC284140CD0575002E5641C06370543ADC2841F8A0B5FC032E5641E05000A467DC2841F0172640042E5641	10.5	0
+178	178	0106000000010000000103000000010000000600000020753E9666DC284188CBA098072E5641605743DE77DC28412839AD62072E564120CD8D4F8CDC2841607D2084062E5641605F81858CDC28415833A932042E5641E05000A467DC2841F0172640042E564120753E9666DC284188CBA098072E5641	10.5	0
+179	179	01060000000100000001030000000100000005000000605F81858CDC28415833A932042E5641A060D3788FDC28412032573F012E5641A051A91D69DC284198D669EE002E5641E05000A467DC2841F0172640042E5641605F81858CDC28415833A932042E5641	10.5	0
+181	181	01060000000100000001030000000100000005000000404DBA4EBBDC284140AA1976042E5641A0BB6F92BCDC284130C9FCB1012E5641A060D3788FDC28412032573F012E5641605F81858CDC28415833A932042E5641404DBA4EBBDC284140AA1976042E5641	10.5	0
+182	182	010600000001000000010300000001000000050000008071F840BADC2841B08684FD062E5641A0A7ADEEE6DC2841E8E6238B072E5641A0B14684E6DC2841289FB6C3042E5641404DBA4EBBDC284140AA1976042E56418071F840BADC2841B08684FD062E5641	10.5	0
+183	183	01060000000100000001030000000100000005000000A0B14684E6DC2841289FB6C3042E5641C05E8890E7DC2841A07B2517022E5641A0BB6F92BCDC284130C9FCB1012E5641404DBA4EBBDC284140AA1976042E5641A0B14684E6DC2841289FB6C3042E5641	10.5	0
+184	184	01060000000100000001030000000100000005000000A0A7ADEEE6DC2841E8E6238B072E5641606D09720CDD2841A80B0BF7072E5641006EB2EB0DDD28413898FAFC042E5641A0B14684E6DC2841289FB6C3042E5641A0A7ADEEE6DC2841E8E6238B072E5641	10.5	0
+185	185	01060000000100000001030000000100000005000000006EB2EB0DDD28413898FAFC042E5641609342D10FDD284160299C3F022E5641C05E8890E7DC2841A07B2517022E5641A0B14684E6DC2841289FB6C3042E5641006EB2EB0DDD28413898FAFC042E5641	10.5	0
+186	186	01060000000100000001030000000100000006000000606D09720CDD2841A80B0BF7072E56416008E4C822DD28413067F847082E5641E02EC6A127DD2841204E83AB022E5641609342D10FDD284160299C3F022E5641006EB2EB0DDD28413898FAFC042E5641606D09720CDD2841A80B0BF7072E5641	10.5	0
+188	188	01060000000100000001030000000100000005000000A0A107E34DDC2841B04F3EABFF2D5641E02886B07DDC2841D8B5332B002E56412022B9DE81DC2841206A63EBFD2D564160045EE255DC2841F01F2A54FD2D5641A0A107E34DDC2841B04F3EABFF2D5641	10.5	0
+189	189	010600000001000000010300000001000000050000002022B9DE81DC2841206A63EBFD2D5641802C785289DC2841F0E48331FA2D564120D0D7B261DC2841E82A5AF7F92D564160045EE255DC2841F01F2A54FD2D56412022B9DE81DC2841206A63EBFD2D5641	10.5	0
+190	190	01060000000100000001030000000100000005000000E02886B07DDC2841D8B5332B002E5641E046E1ACA9DC2841F05AD076002E5641C0374E38ACDC284158BBCB7CFE2D56412022B9DE81DC2841206A63EBFD2D5641E02886B07DDC2841D8B5332B002E5641	10.5	0
+191	191	01060000000100000001030000000100000005000000C0374E38ACDC284158BBCB7CFE2D564140E1AF7DB1DC2841088A207DFA2D5641802C785289DC2841F0E48331FA2D56412022B9DE81DC2841206A63EBFD2D5641C0374E38ACDC284158BBCB7CFE2D5641	10.5	0
+192	192	01060000000100000001030000000100000005000000E046E1ACA9DC2841F05AD076002E56416026F705DADC284118B36702012E564120A773EEDCDC284100D32494FD2D5641C0374E38ACDC284158BBCB7CFE2D5641E046E1ACA9DC2841F05AD076002E5641	10.5	0
+193	193	0106000000010000000103000000010000000500000020A773EEDCDC284100D32494FD2D5641006068A8DFDC284138F744F7FA2D564140E1AF7DB1DC2841088A207DFA2D5641C0374E38ACDC284158BBCB7CFE2D564120A773EEDCDC284100D32494FD2D5641	10.5	0
+194	194	010600000001000000010300000001000000050000006026F705DADC284118B36702012E5641407CCAD305DD2841385F3348012E5641E014A0D307DD284140162F31FE2D564120A773EEDCDC284100D32494FD2D56416026F705DADC284118B36702012E5641	10.5	0
+195	195	01060000000100000001030000000100000005000000E014A0D307DD284140162F31FE2D5641007EC3A40BDD284158A3103DFB2D5641006068A8DFDC284138F744F7FA2D564120A773EEDCDC284100D32494FD2D5641E014A0D307DD284140162F31FE2D5641	10.5	0
+196	196	01060000000100000001030000000100000006000000407CCAD305DD2841385F3348012E5641E0D671A227DD284150E813AB012E5641A080D3E72CDD284158560B7DFB2D5641007EC3A40BDD284158A3103DFB2D5641E014A0D307DD284140162F31FE2D5641407CCAD305DD2841385F3348012E5641	10.5	0
+197	197	010600000001000000010300000001000000050000004086BC2943DC28418096E7C8F82D5641A07939F866DC28419834551AF92D56412082FF9A68DC284168A1176CF52D564120F8A59D48DC284150FC7A20F52D56414086BC2943DC28418096E7C8F82D5641	10.5	0
+198	198	010600000001000000010300000001000000050000002082FF9A68DC284168A1176CF52D564120811D3C7EDC284178438666F22D5641A01FA99B60DC284158BAA503F22D564120F8A59D48DC284150FC7A20F52D56412082FF9A68DC284168A1176CF52D5641	10.5	0
+199	199	01060000000100000001030000000100000005000000A07939F866DC28419834551AF92D5641E0DCA6698ADC2841B0CB9371F92D5641801DE5DD8BDC2841805B41A6F52D56412082FF9A68DC284168A1176CF52D5641A07939F866DC28419834551AF92D5641	10.5	0
+200	200	01060000000100000001030000000100000005000000A01DE5DD8BDC2841805B41A6F52D5641602B96F39EDC284198EF51ACF22D564120811D3C7EDC284178438666F22D56412082FF9A68DC284168A1176CF52D5641A01DE5DD8BDC2841805B41A6F52D5641	10.5	0
+201	201	01060000000100000001030000000100000005000000E0DCA6698ADC2841B0CB9371F92D5641200A95DAB3DC2841D86901C3F92D564160622C66B4DC284198EB5003F62D5641801DE5DD8BDC2841805B41A6F52D5641E0DCA6698ADC2841B0CB9371F92D5641	10.5	0
+202	202	0106000000010000000103000000010000000500000060622C66B4DC284198EB5003F62D564180FEF307C2DC2841B07F6109F32D5641602B96F39EDC284198EF51ACF22D5641A01DE5DD8BDC2841805B41A6F52D564160622C66B4DC284198EB5003F62D5641	10.5	0
+203	203	01060000000100000001030000000100000005000000200A95DAB3DC2841D86901C3F92D56412028F0D6DFDC2841F0E48331FA2D5641801097BFE0DC2841C858757DF62D564160622C66B4DC284198EB5003F62D5641200A95DAB3DC2841D86901C3F92D5641	10.5	0
+2	2	01060000000100000001030000000100000007000000E0D9C22F90D9284128B58FA9EE2D564140A92A7491D9284120363450EB2D5641A02FE90A70D9284168B24F35EB2D564100C45CC45BD92841900743E6EB2D56412000ABEC50D928413007871EED2D5641A0F835114DD9284158EE0080EE2D5641E0D9C22F90D9284128B58FA9EE2D5641	10.5	0
+3	3	01060000000100000001030000000100000005000000C0FC0A488FD9284118202888F22D5641E06EF21FC8D9284160106EF0F22D5641C030FE7CC8D9284188F7D0F3EE2D5641E0D9C22F90D9284128B58FA9EE2D5641C0FC0A488FD9284118202888F22D5641	10.5	0
+4	4	01060000000100000001030000000100000005000000E0D9C22F90D9284128B58FA9EE2D5641C030FE7CC8D9284188F7D0F3EE2D564140300AC1C9D928415827AFB2EB2D564140A92A7491D9284120363450EB2D5641E0D9C22F90D9284128B58FA9EE2D5641	10.5	0
+5	5	01060000000100000001030000000100000005000000E06EF21FC8D9284160106EF0F22D56418081F2CDFCD92841F0FE4964F32D564160889A9FFCD92841A09DF845EF2D5641C030FE7CC8D9284188F7D0F3EE2D5641E06EF21FC8D9284160106EF0F22D5641	10.5	0
+6	6	01060000000100000001030000000100000005000000C030FE7CC8D9284188F7D0F3EE2D564160889A9FFCD92841A09DF845EF2D564180655287FDD92841D00F184FEC2D56412037B292C9D92841C02410C4EB2D5641C030FE7CC8D9284188F7D0F3EE2D5641	10.5	0
+7	7	010600000001000000010300000001000000050000008081F2CDFCD92841F0FE4964F32D5641405CB2EE32DA284160EE5AD2F32D5641E08C4AAA31DA2841A08FA8A2EF2D564160889A9FFCD92841A09DF845EF2D56418081F2CDFCD92841F0FE4964F32D5641	10.5	0
+8	8	0106000000010000000103000000010000000500000060889A9FFCD92841A09DF845EF2D5641E08C4AAA31DA2841A08FA8A2EF2D5641405CB2EE32DA284198FC89CEEC2D564180655287FDD92841D00F184FEC2D564160889A9FFCD92841A09DF845EF2D5641	10.5	0
+10	10	01060000000100000001030000000100000005000000C02490D176DA284108794639F02D564120CA072C79DA284130E4BD70ED2D5641405CB2EE32DA284198FC89CEEC2D5641E08C4AAA31DA2841A08FA8A2EF2D5641C02490D176DA284108794639F02D5641	10.5	0
+11	11	01060000000100000001030000000100000005000000004CFE0547D92841C883133AF92D564160C6CE7989D928411847E7C3F92D564160CF58E98AD9284150294075F62D564100E6064148D92841B0C18CF8F52D5641004CFE0547D92841C883133AF92D5641	10.5	0
+13	13	0106000000010000000103000000010000000500000020E20671C8D92841780ABB4DFA2D5641E0F9E819FBD92841D8CD8ED7FA2D5641C071F4BDFCD928413013D64DF72D5641005A1215CAD92841F090F3F1F62D564120E20671C8D92841780ABB4DFA2D5641	10.5	0
+14	14	01060000000100000001030000000100000005000000005A1215CAD92841F090F3F1F62D5641C071F4BDFCD928413013D64DF72D5641C083089DFFD92841A077115BF42D5641001FA256CCD9284100105EDEF32D5641005A1215CAD92841F090F3F1F62D5641	10.5	0
+15	15	01060000000100000001030000000100000005000000E0F9E819FBD9284118726ECAFA2D56418067D9CF2FDA28413022E12CFB2D564180D65A0430DA2841D07A89CAF72D5641C071F4BDFCD928413013D64DF72D5641E0F9E819FBD9284118726ECAFA2D5641	10.5	0
+16	16	0106000000010000000103000000010000000500000080D65A0430DA2841D07A89CAF72D564160EB79E232DA2841E89C3BB1F42D5641C083089DFFD92841A077115BF42D5641C071F4BDFCD928413013D64DF72D564180D65A0430DA2841D07A89CAF72D5641	10.5	0
+17	17	010600000001000000010300000001000000050000008067D9CF2FDA28413022E12CFB2D5641401D1A0270DA2841189DF5D0FB2D56410073280F72DA2841C0C70D68F82D564180D65A0430DA2841D07A89CAF72D56418067D9CF2FDA28413022E12CFB2D5641	10.5	0
+18	18	010600000001000000010300000001000000050000000073280F72DA2841C0C70D68F82D564100853CEE74DA2841608F373AF52D564160EB79E232DA2841E89C3BB1F42D564180D65A0430DA2841D07A89CAF72D56410073280F72DA2841C0C70D68F82D5641	10.5	0
+19	19	01060000000100000001030000000100000005000000207EE45443D9284158596A12012E5641A0D48C0A80D92841F0C01D8F012E5641A0991C4C82D92841C89BA888FE2D56410065712D45D9284100F303DEFD2D5641207EE45443D9284158596A12012E5641	10.5	0
+21	21	01060000000100000001030000000100000005000000A0D48C0A80D92841F0C01D8F012E564140F7234ABAD928415884F118022E56414000AEB9BBD9284180444D33FF2D5641A0991C4C82D92841C89BA888FE2D5641A0D48C0A80D92841F0C01D8F012E5641	10.5	0
+204	204	01060000000100000001030000000100000005000000801097BFE0DC2841C858757DF62D564160EBA304EADC2841C808426CF32D564180FEF307C2DC2841B07F6109F32D564160622C66B4DC284198EB5003F62D5641801097BFE0DC2841C858757DF62D5641	10.5	0
+205	205	010600000001000000010300000001000000050000002028F0D6DFDC2841F0E48331FA2D5641004B1FD401DD2841089FAD6BFA2D5641801B6DA503DD2841E0FD11C9F62D5641801097BFE0DC2841C858757DF62D56412028F0D6DFDC2841F0E48331FA2D5641	10.5	0
+206	206	01060000000100000001030000000100000005000000801B6DA503DD2841E0FD11C9F62D5641E0A6A8010EDD2841E09F80C3F32D564160EBA304EADC2841C808426CF32D5641801097BFE0DC2841C858757DF62D5641801B6DA503DD2841E0FD11C9F62D5641	10.5	0
+208	208	01060000000100000001030000000100000005000000C0E9F6B830DD2841F88D2126F72D56418FDA634433DD284104296126F42D5641B7A6A8010EDD2841E49F80C3F32D56416C1B6DA503DD2841DAFD11C9F62D5641C0E9F6B830DD2841F88D2126F72D5641	10.5	0
+22	22	01060000000100000001030000000100000005000000A0991C4C82D92841C89BA888FE2D56414000AEB9BBD9284180444D33FF2D56412004A24ABED92841A0B27212FB2D5641806736FD85D928411803ED95FA2D5641A0991C4C82D92841C89BA888FE2D5641	10.5	0
+23	23	0106000000010000000103000000010000000500000040F7234ABAD928415884F118022E56410025B9C9EED9284158725296022E5641A089399BEED9284198AE28B4FF2D56414000AEB9BBD9284180444D33FF2D564140F7234ABAD928415884F118022E5641	10.5	0
+24	24	010600000001000000010300000001000000050000004000AEB9BBD9284180444D33FF2D5641A089399BEED9284198AE28B4FF2D5641A000B63DF0D9284160D0117BFB2D56412004A24ABED92841A0B27212FB2D56414000AEB9BBD9284180444D33FF2D5641	10.5	0
+9	9	010600000001000000010300000001000000050000001D5CB2EE32DA28415AEE5AD2F32D56415D9BB8BD73DA2841AFD7F868F42D5641CD2490D176DA2841F6784639F02D5641EF8C4AAA31DA2841A18FA8A2EF2D56411D5CB2EE32DA28415AEE5AD2F32D5641	10.5	0
+207	207	01060000000100000001030000000100000005000000004B1FD401DD2841089FAD6BFA2D5641C010E3442DDD28412836ECC2FA2D5641C0E9F6B830DD2841F88D2126F72D5641801B6DA503DD2841E0FD11C9F62D5641004B1FD401DD2841089FAD6BFA2D5641	10.5	0
+12	12	0106000000010000000103000000010000000500000000E6064148D92841B0C18CF8F52D564160CF58E98AD9284150294075F62D56414072EB938DD92841A04C8A54F32D5641003C154E4AD928414089B6CAF22D564100E6064148D92841B0C18CF8F52D5641	10.5	0
+20	20	01060000000100000001030000000100000005000000A0991C4C82D92841C89BA888FE2D5641806736FD85D928411803ED95FA2D564120DD7CD146D9284140F75926FA2D56410065712D45D9284100F303DEFD2D5641A0991C4C82D92841C89BA888FE2D5641	10.5	0
+107	107	010600000001000000010300000001000000050000004095A30424DB2841C8F1119F0C2E5641E082353760DB2841509DD4290D2E56414069533B61DB2841E8A1E0110A2E564120C9D50925DB284188F15E25092E56414095A30424DB2841C8F1119F0C2E5641	10.5	0
+153	153	0106000000010000000103000000010000000500000076DE4470ECDB2841C3FC80B3242E56411C917F3626DC2841A4161A36252E5641C4AD13D32BDC2841A78A3E4B222E56417CAD0D85F0DB2841D6E35887212E564176DE4470ECDB2841C3FC80B3242E5641	10.5	0
+158	158	01060000000100000001030000000100000006000000605E13CAF7DB28416850A5BB192E5641A0B84C671BDC28413025721F1A2E5641604FAF6937DC2841886DEF6D1A2E5641C07683673CDC284128A176C0162E5641A06C5D98FADB2841B8F5B335162E5641605E13CAF7DB28416850A5BB192E5641	10.5	0
+90	90	010600000001000000010300000001000000050000006027C903B4DA284140F8F18E0F2E564120A94EB9B5DA28412020BEB50C2E56416038905F6DDA28413882C91A0C2E564140605C866ADA284108CD1AFD0E2E56416027C903B4DA284140F8F18E0F2E5641	10.5	0
+92	92	01060000000100000001030000000100000005000000E09EC144EDDA2841D88DDDD70F2E5641602047FAEEDA2841E00D021A0D2E564120A94EB9B5DA28412020BEB50C2E56416027C903B4DA284140F8F18E0F2E5641E09EC144EDDA2841D88DDDD70F2E5641	10.5	0
+120	120	01060000000100000001030000000100000005000000E029D28162DB284158142EDD022E5641A05D048763DB2841182212B8FE2D56412056D9D126DB284110BDF54DFE2D564180080E4A25DB2841E0686B52022E5641E029D28162DB284158142EDD022E5641	10.5	0
+168	168	01060000000100000001030000000100000005000000203623B002DC28419885DA420B2E564140A4D8F303DC2841D00866CF072E5641A03BE389D4DB284170AB6B69072E5641A03BE389D4DB2841187F1BF10A2E5641203623B002DC28419885DA420B2E5641	10.5	0
+136	136	0106000000010000000103000000010000000500000060677811BFDA28411068FE59F12D5641A0C7B7B4BFDA284138AEF100EE2D56416085359380DA284180CB437AED2D5641A0AA1DCA7EDA2841608550D3F02D564160677811BFDA28411068FE59F12D5641	10.5	0
+84	84	01060000000100000001030000000100000005000000A019A1DF3FDB2841F0DBF0A01B2E5641804E75A160DB2841F05617FC1B2E564180E76B5564DB284158500126152E5641005CE96F42DB284150D5DACA142E5641A019A1DF3FDB2841F0DBF0A01B2E5641	10.5	0
+145	145	0106000000010000000103000000010000000500000080C2701E7EDB284138D9CF6BF62D564120398891A7DB2841285284C1F62D5641005A467BA9DB284168FD93D2F32D56412083EF647FDB2841B01AE64BF32D564180C2701E7EDB284138D9CF6BF62D5641	10.5	0
+140	140	01060000000100000001030000000100000005000000405B69122ADB2841E8730088F22D564120024FD62ADB284198734D0EEF2D5641A046C075F8DA2841E0909F87EE2D564100F9F4EDF6DA284150DCD5E8F12D5641405B69122ADB2841E8730088F22D5641	10.5	0
+74	74	0106000000010000000103000000010000000500000000B7606147DB284180EA544A202E564180E609634ADB2841C0C038D51C2E564160BA40BA17DB28415051F65C1C2E56414039A06B14DB2841F80543CD1F2E564100B7606147DB284180EA544A202E5641	10.5	0
+173	173	0106000000010000000103000000010000000500000020E19F6E05DC2841A0975183032E56418006305407DC284138366002002E564140875548DBDB2841D083379DFF2D564120860355D8DB284100B3D475032E564120E19F6E05DC2841A0975183032E5641	10.5	0
+166	166	0106000000010000000103000000010000000500000060A1BA2F7ADC28414028766D162E564100BE1379C2DC284190C12936112E56410036524C80DC2841E025D286102E564140A3B59C7EDC284168AB01FA122E564160A1BA2F7ADC28414028766D162E5641	10.5	0
+165	165	0106000000010000000103000000010000000500000040A3B59C7EDC284168AB01FA122E56410036524C80DC2841E025D286102E5641E041D64841DC2841D06EF7E40F2E5641E065143B40DC284190DD55A2122E564140A3B59C7EDC284168AB01FA122E5641	10.5	0
+169	169	0106000000010000000103000000010000000500000080967FA301DC2841603748860E2E5641E041D64841DC28419897E7130F2E564100B08B8C42DC284198C8E9C80B2E5641203623B002DC28419885DA420B2E564180967FA301DC2841603748860E2E5641	10.5	1
+52	52	0106000000010000000103000000010000000500000080B509578ED9284138837B97142E5641C0AC808492D9284198885258112E5641004A0D7E51D92841A0A9A3D2102E5641A0B6210C48D92841B8473DC6132E564180B509578ED9284138837B97142E5641	10.5	1
+59	59	0106000000010000000103000000010000000800000000591D4285D92841F892BA6C1C2E564160482E3C42D92841A0C03BE11B2E5641E03D0D3842D92841E80FBAE51B2E564100BB322D40D9284160E9B61E1E2E5641A0F5B4253FD92841687C743D1F2E56418046217183D92841A03593D41F2E56418021277D83D92841B0FE3BC31F2E564100591D4285D92841F892BA6C1C2E5641	10.5	1
+111	111	010600000001000000010300000001000000050000008079D28A96DB2841809DB6C40D2E5641404AD020CDDB2841C825263F0E2E5641E0979BA8CEDB284168B2BF060B2E564140061FCC96DB2841380220B50A2E56418079D28A96DB2841809DB6C40D2E5641	10.5	1
+132	132	0106000000010000000103000000010000000500000080CC9346A2DB2841F86CE225FB2D5641408D128DA3DB284110DB05A4F72D564160CD59DF74DB2841C8529629F72D5641E0F2411673DB2841C8BC42D4FA2D564180CC9346A2DB2841F86CE225FB2D5641	10.5	1
+155	155	01060000000100000001030000000100000005000000E0183342CADB284100E75E041D2E5641403D55E0F5DB284160BA51661D2E5641605E13CAF7DB28416850A5BB192E56416066FEC9CBDB2841D045C75D192E5641E0183342CADB284100E75E041D2E5641	10.5	1
+86	86	01060000000100000001030000000100000005000000401DCCF785DB284128049EF6182E564180B536CB88DB284158500126152E564180E76B5564DB284158500126152E5641E0C00E6762DB2841F048ADB6182E5641401DCCF785DB284128049EF6182E5641	10.5	11
+\.
+
+
+--
+-- TOC entry 4004 (class 0 OID 19077)
+-- Dependencies: 221
+-- Data for Name: piscine; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.piscine (gid, id, geom, name) FROM stdin;
+3	1	0106000000010000000103000000010000000500000025FD9978F7D8284149A43386042E5641E777B2DF22D92841F7AEB021042E5641B97F00E020D928417182857D012E56415E98CE2FF5D82841C9B6FE21022E564125FD9978F7D8284149A43386042E5641	Farniente
+1	3	01060000000100000001030000000100000005000000C57541AC43DD2841F0945019FF2D5641172FCA155FDD284189016A62FF2D5641A5F860A763DD2841CD3F21D1F82D56412547263E46DD284114B7B7B5F82D5641C57541AC43DD2841F0945019FF2D5641	Flot bleu
+2	2	010600000001000000010300000001000000050000003A84F95D65DD2841015233D9FF2D5641E062B252AFDD2841120F1699002E56419462F9BEB8DD2841261C3C92F12D5641551727816EDD2841CEE7C2EDF02D56413A84F95D65DD2841015233D9FF2D5641	Pataugeoire
+\.
+
+
+--
+-- TOC entry 4027 (class 0 OID 19261)
+-- Dependencies: 244
+-- Data for Name: reservations; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.reservations (gid, emplacement_gid, nom, "dateDebut", "dateFind", "factureFinale") FROM stdin;
+\.
+
+
+--
+-- TOC entry 4028 (class 0 OID 19274)
+-- Dependencies: 245
+-- Data for Name: services; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.services (id, nom, marker) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3756 (class 0 OID 18191)
+-- Dependencies: 206
+-- Data for Name: spatial_ref_sys; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.spatial_ref_sys (srid, auth_name, auth_srid, srtext, proj4text) FROM stdin;
+\.
+
+
+--
+-- TOC entry 4006 (class 0 OID 19089)
+-- Dependencies: 223
+-- Data for Name: zone-camping; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."zone-camping" (gid, id, geom, name) FROM stdin;
+1	1	01060000000100000001030000000100000007000000B3A6E56F0BD92841B16FC0E81E2E56411ED4E2015ADA2841336A0C74212E564119CEA2CB5CDA2841067970961A2E5641F2B3A54D05D92841467FECB1172E564131C1652BFFD828418873BC211D2E5641C9BEE54800D92841A671C8001E2E5641B3A6E56F0BD92841B16FC0E81E2E5641	Zone 1
+2	2	0106000000010000000103000000010000000600000024B2C52306D928410081B8E4162E5641E1C942BF5EDA2841737AECEC192E5641D9C0E2ED62DA28415A896406132E56410894851414D92841608FA43C102E564121AFA58807D928418C8784DC132E564124B2C52306D928410081B8E4162E5641	Zone 2
+3	3	010600000001000000010300000001000000050000006990C5C015D92841CE9020930F2E56413DC0423563DA2841EF8A084B122E564103B9C28D66DA2841B59854EA0B2E56410E65C5D329D92841E19EBC0E092E56416990C5C015D92841CE9020930F2E5641	Zone 3
+4	4	01060000000100000001030000000100000005000000A05C05BB2DD928414FA03865082E564135B7E26367DA2841849A34140B2E5641C7AE224B6BDA2841F7A83463042E56411433E5F740D9284129AE98FB012E5641A05C05BB2DD928414FA03865082E5641	Zone 4
+5	5	01060000000100000001030000000100000005000000442EE53243D928410BB08C1C012E564194ADE2D96BDA284153AA9CC2032E56418CA4820870DA2841E7B9C88BFC2D5641D625251A47D9284153BF6809FA2D5641442EE53243D928410BB08C1C012E5641	Zone 5
+6	6	01060000000100000001030000000100000005000000D625251A47D928410EC1343CF92D56418BA4820870DA28417CBB6CD0FB2D56414F9AE2C574DA2841C9C94431F52D5641D01FE5E349D92841FBCEA8C9F22D5641D625251A47D928410EC1343CF92D5641	Zone 6
+7	7	01060000000100000001030000000100000009000000361F452B4AD92841B5D074FCF12D5641839B223774DA284184CB1064F42D56411290428379DA284191DAB06BED2D56412097042E89D928413CDF8842EB2D5641B8CCA45D70D9284163DFB030EB2D564147F9E4BB5BD92841E1DD20E3EB2D56412810A52351D9284152DB7812ED2D5641021E05BA4AD92841A7D6A03BEF2D5641361F452B4AD92841B5D074FCF12D5641	Zone 7
+8	8	01060000000100000001030000000100000007000000A78AA2057CDA28415DCBE875F42D564128987F5ED9DB28417EC5D02DF72D564125955FC3DADB28415DCBE875F42D564199A35F12D4DB2841B0D17888F12D5641C2D03F29BFDB28413FD42059F02D56416A8002C380DA284192DAB06BED2D5641A78AA2057CDA28415DCBE875F42D5641	Zone 8
+9	9	010600000001000000010300000001000000050000004C97C22A76DA284155BB44E2FB2D564165A21FA1D4DB284102B5B4CFFE2D56415C99BFCFD8DB2841C3C304FBF72D56410F8D22E87ADA28418FC9084CF52D56414C97C22A76DA284155BB44E2FB2D5641	Zone 9
+10	10	01060000000100000001030000000100000005000000B99F824372DA2841A0AAEC9E032E56416CAB7F72D0DB284100A40CB0062E564164A21FA1D4DB284148B3E89CFF2D5641B196227276DA2841C1B9A09DFC2D5641B99F824372DA2841A0AAEC9E032E5641	Zone 10
+11	11	010600000001000000010300000001000000050000005DA982CD6DDA28415D9A0C260B2E5641A7B2FF19CDDB2841D193402E0E2E564108AC1F2BD0DB284145A2407D072E5641EFA0C2B471DA2841F8A83463042E56415DA982CD6DDA28415D9A0C260B2E5641	Zone 11
+12	12	0106000000010000000103000000010000000500000099B3221069DA28413D8B5827122E56414CBF1F3FC7DB28414B852CE8142E564176B4DF43CCDB28415092B0E00E2E5641F7A922866DDA28417C9818050C2E564199B3221069DA28413D8B5827122E5641	Zone 12
+13	13	01060000000100000001030000000100000005000000A1BC82E164DA2841877A00E4192E5641ECC5FF2DC4DB2841E77320F51C2E564118BEDFCDC7DB2841568324D0152E5641FFB2825769DA284135893C18132E5641A1BC82E164DA2841877A00E4192E5641	Zone 13
+14	14	01060000000100000001030000000100000006000000DEC6222460DA2841326A0C74212E56415FD4FF7CBDDB28414064E034242E5641BDCAFFF2C1DB2841006CEC9D202E5641BAC7DF57C3DB284106722CD41D2E5641D6BDC25264DA2841A5780CC31A2E5641DEC6222460DA2841326A0C74212E5641	Zone 14
+15	15	01060000000100000001030000000100000007000000BBC7DF57C3DB28412462B02E252E5641BDCAFFF2C1DB2841D154DC592B2E5641AAB51FB5CBDB2841B652AC532C2E5641201FDF6811DC2841CF51BCBE2C2E5641DC0BDF541ADC284150534C0C2C2E5641F7F1FE5126DC28418F600CEA252E5641BBC7DF57C3DB28412462B02E252E5641	Zone 15
+16	16	01060000000100000001030000000100000007000000B8C4BFBCC4DB2841DF637C61242E56415DF15E9926DC2841FD618840252E5641E7DF3EAF2EDC2841C66BB0B8202E5641E1D9FE7831DC2841EA6FFCCD1E2E5641E1B97FC1C9DB28412C7254C21D2E5641ADB83F50CADB28410E6D0421202E5641B8C4BFBCC4DB2841DF637C61242E5641	Zone 16
+17	17	01060000000100000001030000000100000005000000ADB83F50CADB28419A73D0181D2E564141D31E8A34DC2841A571C8001E2E5641604C1EFE72DC28418D80401A172E56410DB25F61CDDB2841428310D9152E5641ADB83F50CADB28419A73D0181D2E5641	Zone 17
+18	18	010600000001000000010300000001000000050000000BAF3FC6CEDB2841258504FA142E5641843B9ECC7ADC2841D5819482162E56418F9FBD02C3DC2841808DB01B112E5641D1A7BF1ED2DB2841179274FB0E2E56410BAF3FC6CEDB2841258504FA142E5641	Zone 18
+19	19	0106000000010000000103000000010000000900000002A6DFF4D2DB2841F993681C0E2E5641E48C5DA7CBDC2841288F6857102E5641A7DA5C2E1EDD2841079CC4610A2E56416ED3DC8621DD2841E39EBC0E092E56416014FEEB8CDC28416CA2686B072E56418F471E3975DC284151A03865082E56415A7EFED95BDC2841CA9FACA3082E564197A03F77D5DB28416CA2686B072E564102A6DFF4D2DB2841F993681C0E2E5641	Zone 19
+20	20	0106000000010000000103000000010000000800000097A03F77D5DB284102A40CB0062E5641FA84DEC858DC284173A164DF072E56415743BE2C77DC284147A2407D072E5641FD17BE3F8BDC28414FA45C8C062E56416BD0BCEB22DD284178A06053082E56412EC61CA927DD2841AAAC08AE022E5641F2931F52DBDB284170B3108BFF2D564197A03F77D5DB284102A40CB0062E5641	Zone 20
+21	21	010600000001000000010300000001000000050000006D031F3C1EDC2841E4B38855FF2D564194C57CF027DD2841D9AE4CAB012E564157BBDCAD2CDD28412BBC2080FB2D56412BBB1EB13FDC284129C044A7F92D56416D031F3C1EDC2841E4B38855FF2D5641	Zone 21
+22	22	010600000001000000010300000001000000060000008CB43EC242DC2841E4C110DAF82D564123BA9C3C2DDD284186BD88DFFA2D5641E4ACDC5E33DD284120CCB01CF42D564152759E0860DC2841B8D074FCF12D564181A8BE5548DC284118CA940DF52D56418CB43EC242DC2841E4C110DAF82D5641	Zone 22
+\.
+
+
+--
+-- TOC entry 3757 (class 0 OID 18892)
+-- Dependencies: 211
+-- Data for Name: topology; Type: TABLE DATA; Schema: topology; Owner: postgres
+--
+
+COPY topology.topology (id, name, srid, "precision", hasz) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3758 (class 0 OID 18905)
+-- Dependencies: 212
+-- Data for Name: layer; Type: TABLE DATA; Schema: topology; Owner: postgres
+--
+
+COPY topology.layer (topology_id, layer_id, schema_name, table_name, feature_column, feature_type, level, child_id) FROM stdin;
+\.
+
+
+--
+-- TOC entry 4052 (class 0 OID 0)
+-- Dependencies: 216
+-- Name: arbres_gid_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.arbres_gid_seq', 101, true);
+
+
+--
+-- TOC entry 4053 (class 0 OID 0)
+-- Dependencies: 232
+-- Name: auth_group_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.auth_group_id_seq', 1, false);
+
+
+--
+-- TOC entry 4054 (class 0 OID 0)
+-- Dependencies: 234
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.auth_group_permissions_id_seq', 1, false);
+
+
+--
+-- TOC entry 4055 (class 0 OID 0)
+-- Dependencies: 230
+-- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.auth_permission_id_seq', 20, true);
+
+
+--
+-- TOC entry 4056 (class 0 OID 0)
+-- Dependencies: 238
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.auth_user_groups_id_seq', 1, false);
+
+
+--
+-- TOC entry 4057 (class 0 OID 0)
+-- Dependencies: 236
+-- Name: auth_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.auth_user_id_seq', 4, true);
+
+
+--
+-- TOC entry 4058 (class 0 OID 0)
+-- Dependencies: 240
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.auth_user_user_permissions_id_seq', 1, false);
+
+
+--
+-- TOC entry 4059 (class 0 OID 0)
+-- Dependencies: 218
+-- Name: batiments_gid_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.batiments_gid_seq', 9, true);
+
+
+--
+-- TOC entry 4060 (class 0 OID 0)
+-- Dependencies: 242
+-- Name: django_admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.django_admin_log_id_seq', 1, false);
+
+
+--
+-- TOC entry 4061 (class 0 OID 0)
+-- Dependencies: 228
+-- Name: django_content_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.django_content_type_id_seq', 24, true);
+
+
+--
+-- TOC entry 4062 (class 0 OID 0)
+-- Dependencies: 226
+-- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 21, true);
+
+
+--
+-- TOC entry 4063 (class 0 OID 0)
+-- Dependencies: 224
+-- Name: emplacements_gid_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.emplacements_gid_seq', 208, true);
+
+
+--
+-- TOC entry 4064 (class 0 OID 0)
+-- Dependencies: 220
+-- Name: piciine_gid_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.piciine_gid_seq', 3, true);
+
+
+--
+-- TOC entry 4065 (class 0 OID 0)
+-- Dependencies: 222
+-- Name: zone-camping_gid_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."zone-camping_gid_seq"', 22, true);
+
+
+--
+-- TOC entry 3792 (class 2606 OID 19046)
+-- Name: arbres arbres_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.arbres
+    ADD CONSTRAINT arbres_pkey PRIMARY KEY (gid);
+
+
+--
+-- TOC entry 3819 (class 2606 OID 19149)
+-- Name: auth_group auth_group_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group
+    ADD CONSTRAINT auth_group_name_key UNIQUE (name);
+
+
+--
+-- TOC entry 3824 (class 2606 OID 19194)
+-- Name: auth_group_permissions auth_group_permissions_group_id_permission_id_0cd325b0_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_group_id_permission_id_0cd325b0_uniq UNIQUE (group_id, permission_id);
+
+
+--
+-- TOC entry 3827 (class 2606 OID 19157)
+-- Name: auth_group_permissions auth_group_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3821 (class 2606 OID 19147)
+-- Name: auth_group auth_group_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group
+    ADD CONSTRAINT auth_group_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3814 (class 2606 OID 19185)
+-- Name: auth_permission auth_permission_content_type_id_codename_01ab375a_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_permission
+    ADD CONSTRAINT auth_permission_content_type_id_codename_01ab375a_uniq UNIQUE (content_type_id, codename);
+
+
+--
+-- TOC entry 3816 (class 2606 OID 19139)
+-- Name: auth_permission auth_permission_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_permission
+    ADD CONSTRAINT auth_permission_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3835 (class 2606 OID 19175)
+-- Name: auth_user_groups auth_user_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3838 (class 2606 OID 19209)
+-- Name: auth_user_groups auth_user_groups_user_id_group_id_94350c0c_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_user_id_group_id_94350c0c_uniq UNIQUE (user_id, group_id);
+
+
+--
+-- TOC entry 3829 (class 2606 OID 19165)
+-- Name: auth_user auth_user_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user
+    ADD CONSTRAINT auth_user_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3841 (class 2606 OID 19183)
+-- Name: auth_user_user_permissions auth_user_user_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3844 (class 2606 OID 19223)
+-- Name: auth_user_user_permissions auth_user_user_permissions_user_id_permission_id_14a6b632_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_user_id_permission_id_14a6b632_uniq UNIQUE (user_id, permission_id);
+
+
+--
+-- TOC entry 3832 (class 2606 OID 19167)
+-- Name: auth_user auth_user_username_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user
+    ADD CONSTRAINT auth_user_username_key UNIQUE (username);
+
+
+--
+-- TOC entry 3795 (class 2606 OID 19058)
+-- Name: batiments batiments_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.batiments
+    ADD CONSTRAINT batiments_pkey PRIMARY KEY (gid);
+
+
+--
+-- TOC entry 3847 (class 2606 OID 19247)
+-- Name: django_admin_log django_admin_log_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_admin_log
+    ADD CONSTRAINT django_admin_log_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3809 (class 2606 OID 19131)
+-- Name: django_content_type django_content_type_app_label_model_76bd3d3b_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_content_type
+    ADD CONSTRAINT django_content_type_app_label_model_76bd3d3b_uniq UNIQUE (app_label, model);
+
+
+--
+-- TOC entry 3811 (class 2606 OID 19129)
+-- Name: django_content_type django_content_type_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_content_type
+    ADD CONSTRAINT django_content_type_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3807 (class 2606 OID 19121)
+-- Name: django_migrations django_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_migrations
+    ADD CONSTRAINT django_migrations_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3855 (class 2606 OID 19295)
+-- Name: django_session django_session_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_session
+    ADD CONSTRAINT django_session_pkey PRIMARY KEY (session_key);
+
+
+--
+-- TOC entry 3805 (class 2606 OID 19106)
+-- Name: emplacements emplacements_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.emplacements
+    ADD CONSTRAINT emplacements_pkey PRIMARY KEY (gid);
+
+
+--
+-- TOC entry 3799 (class 2606 OID 19082)
+-- Name: piscine piciine_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.piscine
+    ADD CONSTRAINT piciine_pkey PRIMARY KEY (gid);
+
+
+--
+-- TOC entry 3850 (class 2606 OID 19268)
+-- Name: reservations reservations_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.reservations
+    ADD CONSTRAINT reservations_pkey PRIMARY KEY (gid);
+
+
+--
+-- TOC entry 3852 (class 2606 OID 19278)
+-- Name: services services_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.services
+    ADD CONSTRAINT services_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3802 (class 2606 OID 19094)
+-- Name: zone-camping zone-camping_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."zone-camping"
+    ADD CONSTRAINT "zone-camping_pkey" PRIMARY KEY (gid);
+
+
+--
+-- TOC entry 3790 (class 1259 OID 19050)
+-- Name: arbres_geom_idx; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX arbres_geom_idx ON public.arbres USING gist (geom);
+
+
+--
+-- TOC entry 3817 (class 1259 OID 19192)
+-- Name: auth_group_name_a6ea08ec_like; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_group_name_a6ea08ec_like ON public.auth_group USING btree (name varchar_pattern_ops);
+
+
+--
+-- TOC entry 3822 (class 1259 OID 19205)
+-- Name: auth_group_permissions_group_id_b120cbf9; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_group_permissions_group_id_b120cbf9 ON public.auth_group_permissions USING btree (group_id);
+
+
+--
+-- TOC entry 3825 (class 1259 OID 19206)
+-- Name: auth_group_permissions_permission_id_84c5c92e; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_group_permissions_permission_id_84c5c92e ON public.auth_group_permissions USING btree (permission_id);
+
+
+--
+-- TOC entry 3812 (class 1259 OID 19191)
+-- Name: auth_permission_content_type_id_2f476e4b; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_permission_content_type_id_2f476e4b ON public.auth_permission USING btree (content_type_id);
+
+
+--
+-- TOC entry 3833 (class 1259 OID 19221)
+-- Name: auth_user_groups_group_id_97559544; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_user_groups_group_id_97559544 ON public.auth_user_groups USING btree (group_id);
+
+
+--
+-- TOC entry 3836 (class 1259 OID 19220)
+-- Name: auth_user_groups_user_id_6a12ed8b; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_user_groups_user_id_6a12ed8b ON public.auth_user_groups USING btree (user_id);
+
+
+--
+-- TOC entry 3839 (class 1259 OID 19235)
+-- Name: auth_user_user_permissions_permission_id_1fbb5f2c; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_user_user_permissions_permission_id_1fbb5f2c ON public.auth_user_user_permissions USING btree (permission_id);
+
+
+--
+-- TOC entry 3842 (class 1259 OID 19234)
+-- Name: auth_user_user_permissions_user_id_a95ead1b; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_user_user_permissions_user_id_a95ead1b ON public.auth_user_user_permissions USING btree (user_id);
+
+
+--
+-- TOC entry 3830 (class 1259 OID 19207)
+-- Name: auth_user_username_6821ab7c_like; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_user_username_6821ab7c_like ON public.auth_user USING btree (username varchar_pattern_ops);
+
+
+--
+-- TOC entry 3793 (class 1259 OID 19062)
+-- Name: batiments_geom_idx; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX batiments_geom_idx ON public.batiments USING gist (geom);
+
+
+--
+-- TOC entry 3845 (class 1259 OID 19258)
+-- Name: django_admin_log_content_type_id_c4bce8eb; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX django_admin_log_content_type_id_c4bce8eb ON public.django_admin_log USING btree (content_type_id);
+
+
+--
+-- TOC entry 3848 (class 1259 OID 19259)
+-- Name: django_admin_log_user_id_c564eba6; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX django_admin_log_user_id_c564eba6 ON public.django_admin_log USING btree (user_id);
+
+
+--
+-- TOC entry 3853 (class 1259 OID 19297)
+-- Name: django_session_expire_date_a5c62663; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX django_session_expire_date_a5c62663 ON public.django_session USING btree (expire_date);
+
+
+--
+-- TOC entry 3856 (class 1259 OID 19296)
+-- Name: django_session_session_key_c0390e0f_like; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX django_session_session_key_c0390e0f_like ON public.django_session USING btree (session_key varchar_pattern_ops);
+
+
+--
+-- TOC entry 3803 (class 1259 OID 19110)
+-- Name: emplacements_geom_idx; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX emplacements_geom_idx ON public.emplacements USING gist (geom);
+
+
+--
+-- TOC entry 3796 (class 1259 OID 19287)
+-- Name: fki_batiment_services; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX fki_batiment_services ON public.batiments USING btree (services_id);
+
+
+--
+-- TOC entry 3797 (class 1259 OID 19086)
+-- Name: piciine_geom_idx; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX piciine_geom_idx ON public.piscine USING gist (geom);
+
+
+--
+-- TOC entry 3800 (class 1259 OID 19098)
+-- Name: zone-camping_geom_idx; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "zone-camping_geom_idx" ON public."zone-camping" USING gist (geom);
+
+
+--
+-- TOC entry 3860 (class 2606 OID 19200)
+-- Name: auth_group_permissions auth_group_permissio_permission_id_84c5c92e_fk_auth_perm; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissio_permission_id_84c5c92e_fk_auth_perm FOREIGN KEY (permission_id) REFERENCES public.auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 3859 (class 2606 OID 19195)
+-- Name: auth_group_permissions auth_group_permissions_group_id_b120cbf9_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_group_id_b120cbf9_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES public.auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 3858 (class 2606 OID 19186)
+-- Name: auth_permission auth_permission_content_type_id_2f476e4b_fk_django_co; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_permission
+    ADD CONSTRAINT auth_permission_content_type_id_2f476e4b_fk_django_co FOREIGN KEY (content_type_id) REFERENCES public.django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 3862 (class 2606 OID 19215)
+-- Name: auth_user_groups auth_user_groups_group_id_97559544_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_group_id_97559544_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES public.auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 3861 (class 2606 OID 19210)
+-- Name: auth_user_groups auth_user_groups_user_id_6a12ed8b_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_user_id_6a12ed8b_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 3864 (class 2606 OID 19229)
+-- Name: auth_user_user_permissions auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm FOREIGN KEY (permission_id) REFERENCES public.auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 3863 (class 2606 OID 19224)
+-- Name: auth_user_user_permissions auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 3857 (class 2606 OID 19282)
+-- Name: batiments batiment_services; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.batiments
+    ADD CONSTRAINT batiment_services FOREIGN KEY (services_id) REFERENCES public.services(id) NOT VALID;
+
+
+--
+-- TOC entry 3865 (class 2606 OID 19248)
+-- Name: django_admin_log django_admin_log_content_type_id_c4bce8eb_fk_django_co; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_admin_log
+    ADD CONSTRAINT django_admin_log_content_type_id_c4bce8eb_fk_django_co FOREIGN KEY (content_type_id) REFERENCES public.django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 3866 (class 2606 OID 19253)
+-- Name: django_admin_log django_admin_log_user_id_c564eba6_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_admin_log
+    ADD CONSTRAINT django_admin_log_user_id_c564eba6_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 3867 (class 2606 OID 19269)
+-- Name: reservations reserv_empl; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.reservations
+    ADD CONSTRAINT reserv_empl FOREIGN KEY (emplacement_gid) REFERENCES public.emplacements(gid) NOT VALID;
+
+
+-- Completed on 2020-06-12 09:56:06
+
+--
+-- PostgreSQL database dump complete
+--
+
