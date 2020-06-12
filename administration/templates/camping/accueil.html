@@ -24,7 +24,8 @@
                             </div>
                             <div class="flex-1 text-right md:text-center">
                                 <h5 class="font-bold uppercase text-gray-400">Surface totale du camping</h5>
-                                <h3 id="camping_area" class="font-bold text-3xl text-gray-600">... <span class="text-green-500"><i
+                                <h3 id="camping_area" class="font-bold text-3xl text-gray-600">... <span
+                                        class="text-green-500"><i
                                         class="fas fa-caret-up"></i></span></h3>
                             </div>
                         </div>
@@ -178,12 +179,12 @@
                             //arbres
                             var treeurl = '{% url "arbresjson" %}'
                             $.getJSON(treeurl, function (data) {
-                                L.geoJson(data, {onEachFeature: onEachTree}).addTo(arbresL);
+                                L.geoJson(data, myLayerOptions).addTo(arbresL);
                             });
 
                             L.control.layers(baseLayers, overlays).addTo(map);
 
-                            document.getElementById("camping_area").innerHTML = {{campingobj.camping_area|floatformat:-2}} + " m²";
+                            document.getElementById("camping_area").innerHTML = {{campingobj.camping_area|floatformat:-2}} +" m²";
                             document.getElementById("tree_count").innerHTML = {{campingobj.tree_count}};
                             document.getElementById("zone_count").innerHTML = {{campingobj.zone_count}};
                             document.getElementById("emplacement_count").innerHTML = "{{campingobj.emplacement_count}}";
@@ -210,7 +211,7 @@
                                 });
 
                             } else {
-                                 layer.setStyle({
+                                layer.setStyle({
                                     'fillColor': '#2da822'
                                 });
                                 layer.on('mouseover', function () {
@@ -220,7 +221,7 @@
                                 });
                                 layer.on('mouseout', function () {
                                     this.setStyle({
-                                       'fillColor': '#2da822'
+                                        'fillColor': '#2da822'
                                     });
                                 });
 
@@ -243,27 +244,35 @@
                         }
 
                         function onEachBuiding(feature, layer) {
-                            if (feature.properties && feature.properties.popupContent) {
-                                layer.setStyle({
-                                    'fillColor': '#ff7d25'
-                                });
-                            }
+
+                            layer.setStyle({
+                                'fillColor': '#ff7d25',
+                                'color' : '#793c20'
+                            });
                         }
 
                         function onEachPool(feature, layer) {
-                            if (feature.properties && feature.properties.popupContent) {
-                                layer.setStyle({
-                                    'fillColor': '#00bfc0'
-                                });
-                                layer.bindPopup("name : " + feature.properties.name.toString());
-                            }
+
+                            layer.setStyle({
+                                'fillColor': '#00bfc0',
+                                'color': '#006a6b'
+                            });
                         }
 
-                        function onEachTree(feature, layer) {
-                            // does this feature have a property named popupContent?
-                            if (feature.properties && feature.properties.popupContent) {
-                                layer.bindPopup(feature.properties.popupContent);
-                            }
+                        let myLayerOptions = {
+                            pointToLayer: createCustomIcon
+                        }
+
+                        function createCustomIcon(feature, latlng) {
+                            let myIcon = L.icon({
+                                iconUrl: "/static/tree.png" ,
+                                iconSize: [25, 25], // width and height of the image in pixels
+                                shadowSize: [35, 20], // width, height of optional shadow image
+                                iconAnchor: [12, 12], // point of the icon which will correspond to marker's location
+                                shadowAnchor: [12, 6],  // anchor point of the shadow. should be offset
+                                popupAnchor: [0, 0] // point from which the popup should open relative to the iconAnchor
+                            })
+                            return L.marker(latlng, {icon: myIcon})
                         }
 
 
@@ -289,26 +298,26 @@
     <!--/container-->
 
     <script>
-    window.onload= set_nav();
+        window.onload = set_nav();
 
-    function set_nav() {
-        var accueil = document.getElementById("nav_acceuil");
-        var accueil_i = document.getElementById("nav_acceuil_i");
-        var emplacements = document.getElementById("nav_emplacements");
-        var emplacements_i = document.getElementById("nav_emplacements_i");
-        var zones = document.getElementById("nav_zones");
-        var zones_i = document.getElementById("nav_zones_i");
+        function set_nav() {
+            var accueil = document.getElementById("nav_acceuil");
+            var accueil_i = document.getElementById("nav_acceuil_i");
+            var emplacements = document.getElementById("nav_emplacements");
+            var emplacements_i = document.getElementById("nav_emplacements_i");
+            var zones = document.getElementById("nav_zones");
+            var zones_i = document.getElementById("nav_zones_i");
 
-        accueil.classList.add("text-blue-400");
-        accueil.classList.add("border-blue-400");
-        accueil.classList.add("hover:border-blue-400");
-        accueil_i.classList.add("text-blue-400");
+            accueil.classList.add("text-blue-400");
+            accueil.classList.add("border-blue-400");
+            accueil.classList.add("hover:border-blue-400");
+            accueil_i.classList.add("text-blue-400");
 
-        emplacements.classList.add("hover:border-pink-400");
-        emplacements.classList.add("border-gray-900");
-        zones.classList.add("hover:border-pink-400");
-        zones.classList.add("border-gray-900");
-    }
+            emplacements.classList.add("hover:border-pink-400");
+            emplacements.classList.add("border-gray-900");
+            zones.classList.add("hover:border-pink-400");
+            zones.classList.add("border-gray-900");
+        }
 
     </script>
 
